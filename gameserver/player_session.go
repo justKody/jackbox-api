@@ -9,7 +9,7 @@ import (
 )
 
 type PlayerSession struct {
-	sessionId string
+	sessionId int
 	username  string
 	// clientId -> only use for redis re connection thing
 	inGame    bool
@@ -18,11 +18,10 @@ type PlayerSession struct {
 	serverPID *actor.PID
 }
 
-func (p *PlayerSession) newPlayerSession(sessionId string, username string, conn *websocket.Conn, serverPID *actor.PID) actor.Producer {
+func newPlayerSession(sessionId int, conn *websocket.Conn, serverPID *actor.PID) actor.Producer {
 	return func() actor.Receiver {
 		return &PlayerSession{
 			sessionId: sessionId,
-			username:  username,
 			inGame:    false,
 			conn:      conn,
 			serverPID: serverPID,

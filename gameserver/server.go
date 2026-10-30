@@ -2,8 +2,11 @@ package engine
 
 import (
 	"fmt"
+	"math"
+	"math/rand"
 	"net/http"
 	"strings"
+	"sync"
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
@@ -11,6 +14,7 @@ import (
 
 type GameServer struct {
 	ctx      *actor.Context
+	mu       sync.Mutex
 	sessions map[int]*actor.PID
 }
 
@@ -59,6 +63,15 @@ func (s *GameServer) handleWs(w http.ResponseWriter, r *http.Request) {
 		return // Upgrade already wrote the HTTP error
 	}
 
+	// adding spawn child -> player session
+
+	fmt.Println("new client trying connect")
+	sid := rand.Intn(math.MaxInt)
+	pid := s.ctx.SpawnChild(newPlayerSession(sid, conn, s.ctx.PID()), fmt.Sprintf("session_%s", sid))
+
+	s.mu.Lock()
+	s.sessions[sid] = pid
+	s.mu.Unlock()
 }
 
 func main() {
