@@ -72,6 +72,7 @@ func (s *GameServer) handleCancelMatch(player *actor.PID) {
 	}
 }
 
+// spawns the child, used if there exist no lobby
 func (s *GameServer) createLobby() *lobbyInfo {
 	id := s.newLobbyCode()
 	pid := s.ctx.SpawnChild(newLobby(s.ctx.PID(), id), fmt.Sprintf("lobby_%s", id))

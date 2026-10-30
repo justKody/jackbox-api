@@ -56,11 +56,11 @@ func (s *GameServer) handlePlayerAction(player *actor.PID, action types.PlayerAc
 
 	case types.JoinRoom:
 
-		// Join room
+		// Join room (not needed right now)
 
 	case types.LeaveRoom:
 
-		// Leave room
+		// Leave room (now needed right now)
 
 	default:
 		// Unknown action
