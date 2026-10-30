@@ -10,6 +10,7 @@ import (
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
+	"github.com/justKody/jackbox-api/types"
 )
 
 type GameServer struct {
@@ -19,6 +20,7 @@ type GameServer struct {
 }
 
 func newGameServer() actor.Producer {
+	p.serverPID
 	return func() actor.Receiver {
 		return &GameServer{
 			sessions: make(map[int]*actor.PID),
@@ -33,7 +35,37 @@ func (s *GameServer) Receive(c *actor.Context) {
 		s.startHttp()
 		s.ctx = c
 		_ = msg
+	case types.PlayerAction:
+		s.handlePlayerAction(msg)
 	}
+}
+
+func (s *GameServer) handlePlayerAction(action types.PlayerAction) {
+
+	switch action {
+
+	case types.FindMatch:
+		// Handle matchmaking
+
+
+	case types.CancelMatch:
+
+		// Cancel matchmaking
+
+	case types.JoinRoom:
+
+		// Join room
+
+	case types.LeaveRoom:
+
+		// Leave room
+
+	default:
+		// Unknown action
+		fmt.Println("unkown player action registered in game server")
+
+	}
+
 }
 
 func (s *GameServer) startHttp() {

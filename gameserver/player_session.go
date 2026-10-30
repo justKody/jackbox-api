@@ -12,7 +12,7 @@ type PlayerSession struct {
 	sessionId int
 	username  string
 	// clientId -> only use for redis re connection thing
-	inGame    bool
+	inGame    bool // do we need this?
 	conn      *websocket.Conn
 	ctx       *actor.Context
 	serverPID *actor.PID
@@ -55,7 +55,12 @@ func (p *PlayerSession) readLoop() {
 func (p *PlayerSession) handleMessage(msg types.WSMessage) {
 	switch msg.Type {
 	case "findMatch":
-		// logic goes here
+		msg := &types.PlayerActionMessage{
+			Action: types.FindMatch,
+			Msg:    nil,
+		}
+		// ask server to put urself in a finding match logic
+		p.ctx.Send(p.serverPID, msg)
 	default:
 		fmt.Println("msg rec in player session:", msg)
 	}
