@@ -17,13 +17,18 @@ type GameServer struct {
 	ctx      *actor.Context
 	mu       sync.Mutex
 	sessions map[int]*actor.PID
+
+	// only touched inside Receive, so no lock needed
+	lobbies     map[string]*lobbyInfo // lobby id -> lobby
+	playerLobby map[string]string     // player session pid -> lobby id
 }
 
 func newGameServer() actor.Producer {
-	p.serverPID
 	return func() actor.Receiver {
 		return &GameServer{
-			sessions: make(map[int]*actor.PID),
+			sessions:    make(map[int]*actor.PID),
+			lobbies:     make(map[string]*lobbyInfo),
+			playerLobby: make(map[string]string),
 		}
 	}
 }
@@ -31,26 +36,23 @@ func newGameServer() actor.Producer {
 func (s *GameServer) Receive(c *actor.Context) {
 	switch msg := c.Message().(type) {
 	case actor.Started:
-		// start the server handling websocket
-		s.startHttp()
+		// ctx must be set before the http server can spawn sessions with it
 		s.ctx = c
-		_ = msg
-	case types.PlayerAction:
-		s.handlePlayerAction(msg)
+		s.startHttp()
+	case *types.PlayerActionMessage:
+		s.handlePlayerAction(c.Sender(), msg.Action)
 	}
 }
 
-func (s *GameServer) handlePlayerAction(action types.PlayerAction) {
+func (s *GameServer) handlePlayerAction(player *actor.PID, action types.PlayerAction) {
 
 	switch action {
 
 	case types.FindMatch:
-		// Handle matchmaking
-
+		s.handleMatchmaking(player)
 
 	case types.CancelMatch:
-
-		// Cancel matchmaking
+		s.handleCancelMatch(player)
 
 	case types.JoinRoom:
 
@@ -99,7 +101,7 @@ func (s *GameServer) handleWs(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("new client trying connect")
 	sid := rand.Intn(math.MaxInt)
-	pid := s.ctx.SpawnChild(newPlayerSession(sid, conn, s.ctx.PID()), fmt.Sprintf("session_%s", sid))
+	pid := s.ctx.SpawnChild(newPlayerSession(sid, conn, s.ctx.PID()), fmt.Sprintf("session_%d", sid))
 
 	s.mu.Lock()
 	s.sessions[sid] = pid
