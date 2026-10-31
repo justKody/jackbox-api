@@ -2,9 +2,7 @@ package engine
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
-	"io"
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
@@ -44,6 +42,12 @@ func (p *PlayerSession) Receive(c *actor.Context) {
 		p.writeJSON("lobbyUpdate", msg)
 	case *types.MatchCancelled:
 		p.writeJSON("matchCancelled", msg)
+	case *types.GameUpdate:
+		p.writeJSON("game", msg)
+	case *types.RankResult:
+		p.writeJSON("rankResult", msg)
+	case *types.ActionError:
+		p.writeJSON("error", msg)
 	default:
 		fmt.Println("msg received for player session", msg)
 	}
@@ -66,10 +70,11 @@ func (p *PlayerSession) readLoop() {
 		var msg types.WSMessage
 		if err := p.conn.ReadJSON(&msg); err != nil {
 			fmt.Println("read error in read loop", err)
-			if errors.Is(err, io.EOF) {
-				// client is gone, free up its lobby slot
-				p.sendAction(types.CancelMatch)
-			}
+			// a close frame or a dropped connection both mean the client is gone,
+			// free up its lobby slot and stop this session
+			p.sendAction(types.CancelMatch, nil)
+			p.conn.Close()
+			p.ctx.Engine().Poison(p.ctx.PID())
 			return
 		}
 
@@ -81,18 +86,47 @@ func (p *PlayerSession) handleMessage(msg types.WSMessage) {
 	switch msg.Type {
 	case "findMatch":
 		// ask server to put urself in a finding match logic
-		p.sendAction(types.FindMatch)
+		var profile types.Profile
+		if !p.decode(msg, &profile) {
+			return
+		}
+		p.username = profile.Name
+		p.sendAction(types.FindMatch, profile)
 	case "cancelMatch":
-		p.sendAction(types.CancelMatch)
+		p.sendAction(types.CancelMatch, nil)
+	case "lockGuess":
+		var m types.LockGuessMsg
+		if p.decode(msg, &m) {
+			p.sendAction(types.LockGuess, m)
+		}
+	case "vote":
+		var m types.VoteMsg
+		if p.decode(msg, &m) {
+			p.sendAction(types.Vote, m)
+		}
+	case "next":
+		p.sendAction(types.Next, nil)
 	default:
 		fmt.Println("msg rec in player session:", msg)
 	}
 }
 
+// decode reads a message's data, findMatch may come without any
+func (p *PlayerSession) decode(msg types.WSMessage, v any) bool {
+	if len(msg.Data) == 0 {
+		return true
+	}
+	if err := json.Unmarshal(msg.Data, v); err != nil {
+		fmt.Println("bad data for", msg.Type, err)
+		return false
+	}
+	return true
+}
+
 // ctx.Send sets this session as the sender, which the server uses to identify the player
-func (p *PlayerSession) sendAction(action types.PlayerAction) {
+func (p *PlayerSession) sendAction(action types.PlayerAction, msg any) {
 	p.ctx.Send(p.serverPID, &types.PlayerActionMessage{
 		Action: action,
-		Msg:    nil,
+		Msg:    msg,
 	})
 }

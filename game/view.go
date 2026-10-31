@@ -49,8 +49,12 @@ func (g *Game) View() View {
 	if revealed {
 		answer := q.Answer
 		v.Question.Answer = &answer
-		v.Votes = g.Votes
-		v.Results = g.Results
+		// copied, the view is read on other goroutines while the game keeps going
+		v.Votes = make(map[string]gametype.Call, len(g.Votes))
+		for id, c := range g.Votes {
+			v.Votes[id] = c
+		}
+		v.Results = append([]gametype.RoundResult(nil), g.Results...)
 	}
 	return v
 }

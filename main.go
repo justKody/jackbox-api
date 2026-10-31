@@ -1,8 +1,7 @@
 package main
 
-import "fmt"
+import engine "github.com/justKody/jackbox-api/gameserver"
 
-
-func main (){
-	fmt.Print("Hellow world")
+func main() {
+	engine.Run()
 }

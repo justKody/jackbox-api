@@ -189,13 +189,16 @@ func (g *Game) RemovePlayer(playerId string) bool {
 	wasGuesser := i == g.GuesserIdx
 	g.Players = append(g.Players[:i], g.Players[i+1:]...)
 	delete(g.Votes, playerId)
-	if len(g.Players) < 2 {
-		return false
-	}
+	// keep the guesser index valid even when the game is over, View still reads it
 	if i < g.GuesserIdx {
 		g.GuesserIdx--
 	}
-	g.GuesserIdx %= len(g.Players)
+	if len(g.Players) > 0 {
+		g.GuesserIdx %= len(g.Players)
+	}
+	if len(g.Players) < 2 {
+		return false
+	}
 	// the round can't continue without its guesser, hand the dial to the next player
 	if wasGuesser && (g.Phase == gametype.PhaseGuess || g.Phase == gametype.PhaseVote) {
 		g.beginRound()

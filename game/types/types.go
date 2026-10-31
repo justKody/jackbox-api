@@ -19,6 +19,10 @@ type Player struct {
 	Initials string `json:"initials"`
 	Color    string `json:"color"`
 	Score    int    `json:"score"`
+	// the player's character, the game never reads these, they're passed on so
+	// every client can draw everyone's animal
+	Animal string `json:"animal"`
+	Skin   string `json:"skin"`
 }
 
 type Phase string

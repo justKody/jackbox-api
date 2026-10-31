@@ -99,3 +99,18 @@ func TestRemoveGuesser(t *testing.T) {
 		t.Fatal("game can't go on with one player")
 	}
 }
+
+func TestRemoveLastGuesser(t *testing.T) {
+	g := newTestGame(t, "a", "b")
+	g.LockGuess("a", 50)
+	g.Vote("b", gametype.Higher)
+	g.Reveal()
+	g.Next() // b guesses round 2
+	if g.RemovePlayer("b") {
+		t.Fatal("game can't go on with one player")
+	}
+	// the view still has to work for the player left at the table
+	if v := g.View(); v.GuesserID != "a" {
+		t.Fatalf("got guesser %q, want a", v.GuesserID)
+	}
+}

@@ -22,6 +22,7 @@ type GameServer struct {
 	lobbies     map[string]*lobbyInfo   // lobby id -> lobby
 	playerLobby map[string]string       // player session pid -> lobby id
 	waiting     map[string]*matchTicket // player session pid -> ticket, while waiting for a lobby
+	ratings     map[string]int          // client id -> RP, in memory until there is a database
 }
 
 func newGameServer() actor.Producer {
@@ -31,6 +32,7 @@ func newGameServer() actor.Producer {
 			lobbies:     make(map[string]*lobbyInfo),
 			playerLobby: make(map[string]string),
 			waiting:     make(map[string]*matchTicket),
+			ratings:     make(map[string]int),
 		}
 	}
 }
@@ -42,9 +44,17 @@ func (s *GameServer) Receive(c *actor.Context) {
 		s.ctx = c
 		s.startHttp()
 	case *types.PlayerActionMessage:
-		s.handlePlayerAction(c.Sender(), msg.Action)
+		s.handlePlayerAction(c.Sender(), msg)
 	case *types.ServerActionMessage:
 		s.handleServerAction(msg)
+	case *lobbyStarted:
+		if l, ok := s.lobbies[msg.lobbyId]; ok {
+			l.started = true
+		}
+	case *playerBounced:
+		s.handleBounced(msg)
+	case *lobbyFinished:
+		s.handleLobbyFinished(msg)
 	}
 }
 
@@ -57,12 +67,13 @@ func (s *GameServer) handleServerAction(msg *types.ServerActionMessage) {
 	}
 }
 
-func (s *GameServer) handlePlayerAction(player *actor.PID, action types.PlayerAction) {
+func (s *GameServer) handlePlayerAction(player *actor.PID, msg *types.PlayerActionMessage) {
 
-	switch action {
+	switch msg.Action {
 
 	case types.FindMatch:
-		s.handleMatchmaking(player)
+		profile, _ := msg.Msg.(types.Profile)
+		s.handleMatchmaking(player, profile)
 
 	case types.CancelMatch:
 		s.handleCancelMatch(player)
@@ -74,6 +85,12 @@ func (s *GameServer) handlePlayerAction(player *actor.PID, action types.PlayerAc
 	case types.LeaveRoom:
 
 		// Leave room (now needed right now)
+
+	case types.LockGuess, types.Vote, types.Next:
+		// game moves go straight to the player's lobby
+		if l, ok := s.lobbies[s.playerLobby[player.String()]]; ok {
+			s.ctx.Send(l.pid, &playerMove{pid: player, action: msg.Action, msg: msg.Msg})
+		}
 
 	default:
 		// Unknown action
@@ -97,8 +114,9 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 1024,
 	CheckOrigin: func(r *http.Request) bool {
 		origin := r.Header.Get("Origin")
-		// allowing no origin header and any localhost dev origin
-		return origin == "" || strings.HasPrefix(origin, "http://localhost")
+		// allowing no origin header, any localhost dev origin, and same host
+		// origins (React Native on a phone sets the origin to the server it dials)
+		return origin == "" || strings.HasPrefix(origin, "http://localhost") || strings.TrimPrefix(origin, "http://") == r.Host
 	},
 }
 
@@ -121,7 +139,8 @@ func (s *GameServer) handleWs(w http.ResponseWriter, r *http.Request) {
 	s.mu.Unlock()
 }
 
-func main() {
+// Run starts the actor engine and the websocket server, and blocks forever
+func Run() {
 	e, err := actor.NewEngine(actor.NewEngineConfig())
 	if err != nil {
 		fmt.Print("some error while starting the server:", err)
