@@ -19,8 +19,9 @@ type GameServer struct {
 	sessions map[int]*actor.PID
 
 	// only touched inside Receive, so no lock needed
-	lobbies     map[string]*lobbyInfo // lobby id -> lobby
-	playerLobby map[string]string     // player session pid -> lobby id
+	lobbies     map[string]*lobbyInfo   // lobby id -> lobby
+	playerLobby map[string]string       // player session pid -> lobby id
+	waiting     map[string]*matchTicket // player session pid -> ticket, while waiting for a lobby
 }
 
 func newGameServer() actor.Producer {
@@ -29,6 +30,7 @@ func newGameServer() actor.Producer {
 			sessions:    make(map[int]*actor.PID),
 			lobbies:     make(map[string]*lobbyInfo),
 			playerLobby: make(map[string]string),
+			waiting:     make(map[string]*matchTicket),
 		}
 	}
 }
@@ -41,6 +43,17 @@ func (s *GameServer) Receive(c *actor.Context) {
 		s.startHttp()
 	case *types.PlayerActionMessage:
 		s.handlePlayerAction(c.Sender(), msg.Action)
+	case *types.ServerActionMessage:
+		s.handleServerAction(msg)
+	}
+}
+
+func (s *GameServer) handleServerAction(msg *types.ServerActionMessage) {
+	switch msg.Action {
+	case types.PlacePlayer:
+		s.handlePlacePlayer(msg.Msg.(*matchTicket))
+	default:
+		fmt.Println("unknown server action registered in game server")
 	}
 }
 

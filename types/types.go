@@ -23,6 +23,18 @@ type PlayerActionMessage struct {
 	Msg    any
 }
 
+// action the game server sends to itself, e.g. from a timer
+type ServerAction int
+
+const (
+	PlacePlayer ServerAction = iota
+)
+
+type ServerActionMessage struct {
+	Action ServerAction
+	Msg    any
+}
+
 // sent by a lobby to every player in it whenever its roster changes
 type LobbyUpdate struct {
 	LobbyID    string `json:"lobbyId"`

@@ -48,7 +48,8 @@ func (p *PlayerSession) Receive(c *actor.Context) {
 		fmt.Println("msg received for player session", msg)
 	}
 }
- // write this out somewhere else ( maybe util)
+
+// write this out somewhere else ( maybe util)
 func (p *PlayerSession) writeJSON(msgType string, data any) {
 	b, err := json.Marshal(data)
 	if err != nil {

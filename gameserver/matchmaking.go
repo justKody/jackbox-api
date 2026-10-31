@@ -3,15 +3,24 @@ package engine
 import (
 	"fmt"
 	"math/rand"
+	"time"
 
 	"github.com/anthdm/hollywood/actor"
+	"github.com/justKody/jackbox-api/types"
 )
 
 const (
 	maxLobbyPlayers = 8
 	lobbyCodeLength = 4
 	lobbyCodeChars  = "ABCDEFGHJKLMNPQRSTUVWXYZ" // no I/O so codes are easy to read out loud
+	matchmakingWait = 3 * time.Second            // how long a player waits before being put in a lobby
 )
+
+// a player waiting out matchmakingWait before being placed in a lobby
+type matchTicket struct {
+	player *actor.PID
+	timer  *time.Timer
+}
 
 // server side view of a lobby, used for matchmaking decisions
 type lobbyInfo struct {
@@ -35,13 +44,40 @@ func (s *GameServer) findMatch() *lobbyInfo {
 	return best
 }
 
-// handleMatchmaking puts the player in an open lobby, creating one if needed
+// handleMatchmaking makes the player wait matchmakingWait, then places them in a lobby
 func (s *GameServer) handleMatchmaking(player *actor.PID) {
 	key := player.String()
 	if lobbyId, ok := s.playerLobby[key]; ok {
 		fmt.Println("player already in lobby", lobbyId)
 		return
 	}
+	if _, ok := s.waiting[key]; ok {
+		fmt.Println("player already waiting for a match")
+		return
+	}
+
+	t := &matchTicket{player: player}
+	// the timer runs on its own goroutine, so it reports back via a message
+	// instead of touching server state directly
+	engine, self := s.ctx.Engine(), s.ctx.PID()
+	t.timer = time.AfterFunc(matchmakingWait, func() {
+		engine.Send(self, &types.ServerActionMessage{
+			Action: types.PlacePlayer,
+			Msg:    t,
+		})
+	})
+	s.waiting[key] = t
+}
+
+// handlePlacePlayer puts the player in an open lobby, creating one if needed
+func (s *GameServer) handlePlacePlayer(t *matchTicket) {
+	key := t.player.String()
+	// a ticket that was cancelled (or replaced by a newer one) is stale
+	if s.waiting[key] != t {
+		return
+	}
+	delete(s.waiting, key)
+	player := t.player
 
 	l := s.findMatch()
 	if l == nil {
@@ -53,9 +89,16 @@ func (s *GameServer) handleMatchmaking(player *actor.PID) {
 	s.ctx.Send(l.pid, &addPlayer{pid: player})
 }
 
-// handleCancelMatch takes the player out of its lobby and closes the lobby once empty
+// handleCancelMatch stops the player's wait, or takes them out of their lobby
+// and closes the lobby once empty
 func (s *GameServer) handleCancelMatch(player *actor.PID) {
 	key := player.String()
+	if t, ok := s.waiting[key]; ok {
+		t.timer.Stop()
+		delete(s.waiting, key)
+		return
+	}
+
 	lobbyId, ok := s.playerLobby[key]
 	if !ok {
 		return
