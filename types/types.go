@@ -25,6 +25,7 @@ const (
 	LockGuess
 	Vote
 	Next
+	Dial
 )
 
 type PlayerActionMessage struct {
@@ -58,6 +59,17 @@ type Profile struct {
 // data of a lockGuess message
 type LockGuessMsg struct {
 	Guess int `json:"guess"`
+}
+
+// data of a dial message, the guesser turning the dial before locking in
+type DialMsg struct {
+	Value int `json:"value"`
+}
+
+// sent to everyone but the guesser as the guesser turns the dial
+type DialUpdate struct {
+	PlayerID string `json:"playerId"`
+	Value    int    `json:"value"`
 }
 
 // data of a vote message

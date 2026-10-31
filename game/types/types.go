@@ -49,6 +49,7 @@ type State struct {
 	Round      int                 `json:"round"` // 0 based
 	GuesserIdx int                 `json:"guesserIndex"`
 	Guess      *int                `json:"guess"` // the guesser's locked guess, nil until locked
+	Dial       int                 `json:"dial"`  // where the guesser's dial sits before locking in
 	Votes      map[string]Call     `json:"votes"` // player id -> call, guesser never votes
 	Results    []RoundResult       `json:"results"`
 }

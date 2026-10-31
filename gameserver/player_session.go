@@ -44,6 +44,8 @@ func (p *PlayerSession) Receive(c *actor.Context) {
 		p.writeJSON("matchCancelled", msg)
 	case *types.GameUpdate:
 		p.writeJSON("game", msg)
+	case *types.DialUpdate:
+		p.writeJSON("dial", msg)
 	case *types.RankResult:
 		p.writeJSON("rankResult", msg)
 	case *types.ActionError:
@@ -106,6 +108,11 @@ func (p *PlayerSession) handleMessage(msg types.WSMessage) {
 		}
 	case "next":
 		p.sendAction(types.Next, nil)
+	case "dial":
+		var m types.DialMsg
+		if p.decode(msg, &m) {
+			p.sendAction(types.Dial, m)
+		}
 	default:
 		fmt.Println("msg rec in player session:", msg)
 	}

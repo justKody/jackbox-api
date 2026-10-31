@@ -19,6 +19,7 @@ type View struct {
 	GuesserID   string            `json:"guesserId"`
 	Question    QuestionView      `json:"question"`
 	Guess       *int              `json:"guess"`
+	Dial        int               `json:"dial"` // the guesser's dial, live while they're guessing
 	// who has locked in a call, so the table can show "Locked" without giving calls away
 	Locked  []string                 `json:"locked"`
 	Votes   map[string]gametype.Call `json:"votes,omitempty"` // only once revealed
@@ -44,6 +45,7 @@ func (g *Game) View() View {
 		GuesserID:   g.Guesser().ID,
 		Question:    QuestionView{ID: q.ID, Text: q.Text},
 		Guess:       g.Guess,
+		Dial:        g.Dial,
 		Locked:      locked,
 	}
 	if revealed {

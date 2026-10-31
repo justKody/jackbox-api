@@ -68,6 +68,7 @@ func (g *Game) reset(players []gametype.Player) {
 func (g *Game) beginRound() {
 	g.Phase = gametype.PhaseGuess
 	g.Guess = nil
+	g.Dial = DefaultGuess
 	g.Votes = make(map[string]gametype.Call)
 	g.Results = nil
 }
@@ -125,9 +126,21 @@ func (g *Game) LockGuess(playerId string, guess int) error {
 	return nil
 }
 
-// GuessTimeout locks in the dial's starting value when the guesser runs out of time
+// MoveDial records where the guesser has turned the dial, so everyone else can watch it
+func (g *Game) MoveDial(playerId string, value int) error {
+	if g.Phase != gametype.PhaseGuess {
+		return ErrWrongPhase
+	}
+	if g.Guesser().ID != playerId {
+		return ErrNotGuesser
+	}
+	g.Dial = clamp(value)
+	return nil
+}
+
+// GuessTimeout locks in wherever the dial was left when the guesser runs out of time
 func (g *Game) GuessTimeout() error {
-	return g.LockGuess(g.Guesser().ID, DefaultGuess)
+	return g.LockGuess(g.Guesser().ID, g.Dial)
 }
 
 func (g *Game) Vote(playerId string, call gametype.Call) error {

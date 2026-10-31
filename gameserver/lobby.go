@@ -227,6 +227,13 @@ func (l *Lobby) handleMove(m *playerMove) {
 		err = l.game.LockGuess(id, m.msg.(types.LockGuessMsg).Guess)
 	case types.Vote:
 		err = l.game.Vote(id, m.msg.(types.VoteMsg).Call)
+	case types.Dial:
+		// the dial streams in while the guesser drags it, so it skips the full game update.
+		// one arriving just after the lock is expected, it's dropped without an error
+		if l.game.MoveDial(id, m.msg.(types.DialMsg).Value) == nil {
+			l.broadcastDial(s)
+		}
+		return
 	case types.Next:
 		if l.game.Phase != gametype.PhaseReveal {
 			err = game.ErrWrongPhase
@@ -357,6 +364,16 @@ func (l *Lobby) broadcastGame() {
 	view := l.game.View()
 	for _, s := range l.seats {
 		l.ctx.Send(s.pid, &types.GameUpdate{You: s.player.ID, View: view})
+	}
+}
+
+// the guesser already knows where their own dial is
+func (l *Lobby) broadcastDial(guesser *seat) {
+	update := &types.DialUpdate{PlayerID: guesser.player.ID, Value: l.game.Dial}
+	for _, s := range l.seats {
+		if s != guesser {
+			l.ctx.Send(s.pid, update)
+		}
 	}
 }
 

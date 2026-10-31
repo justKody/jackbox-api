@@ -114,3 +114,21 @@ func TestRemoveLastGuesser(t *testing.T) {
 		t.Fatalf("got guesser %q, want a", v.GuesserID)
 	}
 }
+
+func TestDial(t *testing.T) {
+	g := newTestGame(t, "a", "b")
+	if err := g.MoveDial("b", 70); err != ErrNotGuesser {
+		t.Fatalf("only the guesser turns the dial, got %v", err)
+	}
+	if err := g.MoveDial("a", 140); err != nil || g.View().Dial != 100 {
+		t.Fatalf("dial should clamp to 100, got %d err %v", g.View().Dial, err)
+	}
+	g.MoveDial("a", 72)
+	// running out of time locks in wherever the dial was left
+	if err := g.GuessTimeout(); err != nil || *g.Guess != 72 {
+		t.Fatalf("timeout should lock 72, got %v err %v", g.Guess, err)
+	}
+	if err := g.MoveDial("a", 10); err != ErrWrongPhase {
+		t.Fatalf("dial is locked once the guess is in, got %v", err)
+	}
+}
