@@ -1,0 +1,938 @@
+[
+  {
+    "id": "owid1",
+    "text": "What percentage of the world's people use the internet?",
+    "answer": 74,
+    "exact": 73.6,
+    "year": 2025,
+    "source": "World Telecommunication/ICT Indicators Database - International Telecommunication Union (ITU), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-individuals-using-the-internet"
+  },
+  {
+    "id": "owid2",
+    "text": "What percentage of the world's people live in cities?",
+    "answer": 58,
+    "exact": 57.83,
+    "year": 2025,
+    "source": "United Nations Department of Economic and Social Affairs, Population Division (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-urban"
+  },
+  {
+    "id": "owid3",
+    "text": "What percentage of the world's people live in extreme poverty (under $3 a day)?",
+    "answer": 10,
+    "exact": 9.79,
+    "year": 2026,
+    "source": "World Bank Poverty and Inequality Platform (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-in-extreme-poverty"
+  },
+  {
+    "id": "owid4",
+    "text": "What percentage of the world's people have access to electricity?",
+    "answer": 92,
+    "exact": 91.93,
+    "year": 2024,
+    "source": "Data compiled from multiple sources by the World Bank",
+    "url": "https://ourworldindata.org/grapher/share-of-the-population-with-access-to-electricity"
+  },
+  {
+    "id": "owid5",
+    "text": "What percentage of the world's people cook with clean fuels like gas or electricity?",
+    "answer": 75,
+    "exact": 75.0,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/access-to-clean-fuels-and-technologies-for-cooking"
+  },
+  {
+    "id": "owid6",
+    "text": "What percentage of the world's adults smoke tobacco?",
+    "answer": 20,
+    "exact": 20.28,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-who-smoke"
+  },
+  {
+    "id": "owid7",
+    "text": "What percentage of the world's adults are obese?",
+    "answer": 16,
+    "exact": 16.41,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-defined-as-obese"
+  },
+  {
+    "id": "owid8",
+    "text": "What percentage of the world's people are undernourished?",
+    "answer": 8,
+    "exact": 8.2,
+    "year": 2024,
+    "source": "Food and Agriculture Organization of the United Nations (2025)",
+    "url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment"
+  },
+  {
+    "id": "owid9",
+    "text": "What percentage of the world's adults can read and write?",
+    "answer": 88,
+    "exact": 87.74,
+    "year": 2024,
+    "source": "UNESCO Institute for Statistics (2026)",
+    "url": "https://ourworldindata.org/grapher/literacy?age_group=adult&sex=both"
+  },
+  {
+    "id": "owid10",
+    "text": "What percentage of children worldwide die before their fifth birthday?",
+    "answer": 4,
+    "exact": 3.74,
+    "year": 2024,
+    "source": "Gapminder (2015); UN Inter-agency Group for Child Mortality Estimation (2025)",
+    "url": "https://ourworldindata.org/grapher/child-mortality"
+  },
+  {
+    "id": "owid11",
+    "text": "What percentage of people in India use the internet?",
+    "answer": 70,
+    "exact": 70.0,
+    "year": 2025,
+    "source": "World Telecommunication/ICT Indicators Database - International Telecommunication Union (ITU), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-individuals-using-the-internet"
+  },
+  {
+    "id": "owid12",
+    "text": "What percentage of people in Japan live in cities?",
+    "answer": 92,
+    "exact": 92.3,
+    "year": 2025,
+    "source": "United Nations Department of Economic and Social Affairs, Population Division (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-urban"
+  },
+  {
+    "id": "owid13",
+    "text": "What percentage of people in India live in cities?",
+    "answer": 36,
+    "exact": 35.69,
+    "year": 2025,
+    "source": "United Nations Department of Economic and Social Affairs, Population Division (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-urban"
+  },
+  {
+    "id": "owid14",
+    "text": "What percentage of adults in the United States are obese?",
+    "answer": 42,
+    "exact": 41.83,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-defined-as-obese"
+  },
+  {
+    "id": "owid15",
+    "text": "What percentage of adults in Indonesia smoke tobacco?",
+    "answer": 31,
+    "exact": 31.0,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-who-smoke"
+  },
+  {
+    "id": "owid16",
+    "text": "What percentage of the world's land is covered by forest?",
+    "answer": 32,
+    "exact": 31.91,
+    "year": 2025,
+    "source": "Food and Agriculture Organization of the United Nations and historical sources",
+    "url": "https://ourworldindata.org/grapher/forest-area-as-share-of-land-area"
+  },
+  {
+    "id": "owid17",
+    "text": "What percentage of Brazil's land is covered by forest?",
+    "answer": 58,
+    "exact": 58.16,
+    "year": 2025,
+    "source": "Food and Agriculture Organization of the United Nations and historical sources",
+    "url": "https://ourworldindata.org/grapher/forest-area-as-share-of-land-area"
+  },
+  {
+    "id": "owid18",
+    "text": "What percentage of Finland's land is covered by forest?",
+    "answer": 74,
+    "exact": 74.16,
+    "year": 2025,
+    "source": "Food and Agriculture Organization of the United Nations and historical sources",
+    "url": "https://ourworldindata.org/grapher/forest-area-as-share-of-land-area"
+  },
+  {
+    "id": "owid19",
+    "text": "What percentage of the world's land is used for farming?",
+    "answer": 37,
+    "exact": 36.93,
+    "year": 2023,
+    "source": "Food and Agriculture Organization of the United Nations (FAO), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-land-area-used-for-agriculture"
+  },
+  {
+    "id": "owid20",
+    "text": "What percentage of the world's electricity comes from renewables?",
+    "answer": 34,
+    "exact": 33.76,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=renewables"
+  },
+  {
+    "id": "owid21",
+    "text": "What percentage of the world's electricity comes from coal?",
+    "answer": 33,
+    "exact": 32.96,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=coal"
+  },
+  {
+    "id": "owid22",
+    "text": "What percentage of the world's electricity comes from nuclear power?",
+    "answer": 9,
+    "exact": 8.85,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=nuclear"
+  },
+  {
+    "id": "owid23",
+    "text": "What percentage of France's electricity comes from nuclear power?",
+    "answer": 69,
+    "exact": 68.79,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=nuclear"
+  },
+  {
+    "id": "owid24",
+    "text": "What percentage of Norway's electricity comes from renewables?",
+    "answer": 99,
+    "exact": 99.0,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=renewables"
+  },
+  {
+    "id": "owid25",
+    "text": "What percentage of China's electricity comes from coal?",
+    "answer": 54,
+    "exact": 54.35,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=coal"
+  },
+  {
+    "id": "owid26",
+    "text": "What percentage of the world's electricity comes from solar power?",
+    "answer": 9,
+    "exact": 8.75,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=solar"
+  },
+  {
+    "id": "owid27",
+    "text": "What percentage of Denmark's electricity comes from wind power?",
+    "answer": 58,
+    "exact": 57.69,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=wind"
+  },
+  {
+    "id": "owid28",
+    "text": "What percentage of the world's energy comes from fossil fuels?",
+    "answer": 86,
+    "exact": 86.24,
+    "year": 2025,
+    "source": "Energy Institute – Statistical Review of World Energy (2026); Smil (2017); U.S. Energy Information Administration (2026)",
+    "url": "https://ourworldindata.org/grapher/energy-mix?metric=share&source=fossil_fuels"
+  },
+  {
+    "id": "owid29",
+    "text": "China produces what percentage of the world's yearly CO2 emissions?",
+    "answer": 32,
+    "exact": 31.84,
+    "year": 2024,
+    "source": "Global Carbon Budget (2025)",
+    "url": "https://ourworldindata.org/grapher/annual-share-of-co2-emissions"
+  },
+  {
+    "id": "owid30",
+    "text": "The United States produces what percentage of the world's yearly CO2 emissions?",
+    "answer": 13,
+    "exact": 12.71,
+    "year": 2024,
+    "source": "Global Carbon Budget (2025)",
+    "url": "https://ourworldindata.org/grapher/annual-share-of-co2-emissions"
+  },
+  {
+    "id": "owid31",
+    "text": "India produces what percentage of the world's yearly CO2 emissions?",
+    "answer": 8,
+    "exact": 8.27,
+    "year": 2024,
+    "source": "Global Carbon Budget (2025)",
+    "url": "https://ourworldindata.org/grapher/annual-share-of-co2-emissions"
+  },
+  {
+    "id": "owid32",
+    "text": "Russia produces what percentage of the world's yearly CO2 emissions?",
+    "answer": 5,
+    "exact": 4.61,
+    "year": 2024,
+    "source": "Global Carbon Budget (2025)",
+    "url": "https://ourworldindata.org/grapher/annual-share-of-co2-emissions"
+  },
+  {
+    "id": "owid33",
+    "text": "Japan produces what percentage of the world's yearly CO2 emissions?",
+    "answer": 2,
+    "exact": 2.49,
+    "year": 2024,
+    "source": "Global Carbon Budget (2025)",
+    "url": "https://ourworldindata.org/grapher/annual-share-of-co2-emissions"
+  },
+  {
+    "id": "owid34",
+    "text": "What percentage of people in Nigeria use the internet?",
+    "answer": 41,
+    "exact": 41.21,
+    "year": 2024,
+    "source": "World Telecommunication/ICT Indicators Database - International Telecommunication Union (ITU), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-individuals-using-the-internet"
+  },
+  {
+    "id": "owid35",
+    "text": "What percentage of people in China use the internet?",
+    "answer": 92,
+    "exact": 91.6,
+    "year": 2025,
+    "source": "World Telecommunication/ICT Indicators Database - International Telecommunication Union (ITU), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-individuals-using-the-internet"
+  },
+  {
+    "id": "owid36",
+    "text": "What percentage of people in the UK use the internet?",
+    "answer": 95,
+    "exact": 95.47,
+    "year": 2024,
+    "source": "World Telecommunication/ICT Indicators Database - International Telecommunication Union (ITU), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-individuals-using-the-internet"
+  },
+  {
+    "id": "owid37",
+    "text": "What percentage of people in Nigeria live in cities?",
+    "answer": 64,
+    "exact": 63.78,
+    "year": 2025,
+    "source": "United Nations Department of Economic and Social Affairs, Population Division (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-urban"
+  },
+  {
+    "id": "owid38",
+    "text": "What percentage of people in China live in cities?",
+    "answer": 66,
+    "exact": 66.34,
+    "year": 2025,
+    "source": "United Nations Department of Economic and Social Affairs, Population Division (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-urban"
+  },
+  {
+    "id": "owid39",
+    "text": "What percentage of people in Belgium live in cities?",
+    "answer": 88,
+    "exact": 87.67,
+    "year": 2025,
+    "source": "United Nations Department of Economic and Social Affairs, Population Division (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-urban"
+  },
+  {
+    "id": "owid40",
+    "text": "What percentage of people in Nigeria live in extreme poverty (under $3 a day)?",
+    "answer": 42,
+    "exact": 41.82,
+    "year": 2022,
+    "source": "World Bank Poverty and Inequality Platform (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-in-extreme-poverty"
+  },
+  {
+    "id": "owid41",
+    "text": "What percentage of people in India live in extreme poverty (under $3 a day)?",
+    "answer": 3,
+    "exact": 2.57,
+    "year": 2023,
+    "source": "World Bank Poverty and Inequality Platform (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-in-extreme-poverty"
+  },
+  {
+    "id": "owid42",
+    "text": "What percentage of people in Nigeria have access to electricity?",
+    "answer": 62,
+    "exact": 62.5,
+    "year": 2024,
+    "source": "Data compiled from multiple sources by the World Bank",
+    "url": "https://ourworldindata.org/grapher/share-of-the-population-with-access-to-electricity"
+  },
+  {
+    "id": "owid43",
+    "text": "What percentage of adults in the United States smoke tobacco?",
+    "answer": 16,
+    "exact": 15.8,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-who-smoke"
+  },
+  {
+    "id": "owid44",
+    "text": "What percentage of adults in France smoke tobacco?",
+    "answer": 34,
+    "exact": 33.6,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-who-smoke"
+  },
+  {
+    "id": "owid45",
+    "text": "What percentage of adults in China smoke tobacco?",
+    "answer": 23,
+    "exact": 22.8,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-who-smoke"
+  },
+  {
+    "id": "owid46",
+    "text": "What percentage of adults in Japan are obese?",
+    "answer": 5,
+    "exact": 5.19,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-defined-as-obese"
+  },
+  {
+    "id": "owid47",
+    "text": "What percentage of adults in India are obese?",
+    "answer": 8,
+    "exact": 7.98,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-defined-as-obese"
+  },
+  {
+    "id": "owid48",
+    "text": "What percentage of the world's adults are overweight or obese?",
+    "answer": 45,
+    "exact": 44.6,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-who-are-overweight"
+  },
+  {
+    "id": "owid49",
+    "text": "What percentage of adults in the United States are overweight or obese?",
+    "answer": 71,
+    "exact": 71.4,
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-who-are-overweight"
+  },
+  {
+    "id": "owid50",
+    "text": "What percentage of children under 5 worldwide are overweight?",
+    "answer": 6,
+    "exact": 5.5,
+    "year": 2024,
+    "source": "UNICEF, World Health Organization and World Bank",
+    "url": "https://ourworldindata.org/grapher/share-of-children-who-are-overweight"
+  },
+  {
+    "id": "owid51",
+    "text": "What percentage of the world's adults (ages 20–79) have diabetes?",
+    "answer": 11,
+    "exact": 10.8,
+    "year": 2024,
+    "source": "International Diabetes Federation (Diabetes Atlas), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/diabetes-prevalence"
+  },
+  {
+    "id": "owid52",
+    "text": "What percentage of children under 5 worldwide have anemia?",
+    "answer": 41,
+    "exact": 40.52,
+    "year": 2019,
+    "source": "Global Health Observatory / World Health Statistics - World Health Organization (WHO), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/prevalence-of-anemia-in-children"
+  },
+  {
+    "id": "owid53",
+    "text": "What percentage of adults in India can read and write?",
+    "answer": 78,
+    "exact": 78.16,
+    "year": 2024,
+    "source": "UNESCO Institute for Statistics (2026)",
+    "url": "https://ourworldindata.org/grapher/literacy?age_group=adult&sex=both"
+  },
+  {
+    "id": "owid54",
+    "text": "What percentage of children in Nigeria die before their fifth birthday?",
+    "answer": 12,
+    "exact": 11.56,
+    "year": 2024,
+    "source": "Gapminder (2015); UN Inter-agency Group for Child Mortality Estimation (2025)",
+    "url": "https://ourworldindata.org/grapher/child-mortality"
+  },
+  {
+    "id": "owid55",
+    "text": "What percentage of women worldwide are expected to live to age 65?",
+    "answer": 83,
+    "exact": 82.51,
+    "year": 2024,
+    "source": "United Nations Population Division (World Population Prospects), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/women-survival-to-age-65"
+  },
+  {
+    "id": "owid56",
+    "text": "What percentage of men worldwide are expected to live to age 65?",
+    "answer": 74,
+    "exact": 74.0,
+    "year": 2024,
+    "source": "United Nations Population Division (World Population Prospects), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/men-survival-to-age-65"
+  },
+  {
+    "id": "owid57",
+    "text": "What percentage of the world's women are working or looking for work?",
+    "answer": 49,
+    "exact": 48.94,
+    "year": 2025,
+    "source": "ILO Modelled Estimates, via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/female-labor-force-participation-rates"
+  },
+  {
+    "id": "owid58",
+    "text": "What percentage of senior and middle management jobs in the US are held by women?",
+    "answer": 44,
+    "exact": 44.06,
+    "year": 2025,
+    "source": "International Labour Organization",
+    "url": "https://ourworldindata.org/grapher/proportion-of-women-in-senior-and-middle-management-positions"
+  },
+  {
+    "id": "owid59",
+    "text": "What percentage of babies in the United States are born to unmarried parents?",
+    "answer": 40,
+    "exact": 40.0,
+    "year": 2023,
+    "source": "OECD (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-births-outside-marriage"
+  },
+  {
+    "id": "owid60",
+    "text": "What percentage of babies in France are born to unmarried parents?",
+    "answer": 58,
+    "exact": 58.5,
+    "year": 2023,
+    "source": "OECD (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-births-outside-marriage"
+  },
+  {
+    "id": "owid61",
+    "text": "What percentage of babies in Japan are born to unmarried parents?",
+    "answer": 2,
+    "exact": 2.4,
+    "year": 2023,
+    "source": "OECD (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-births-outside-marriage"
+  },
+  {
+    "id": "owid62",
+    "text": "What percentage of Americans say religion is very important in their life?",
+    "answer": 37,
+    "exact": 37.09,
+    "year": 2022,
+    "source": "Integrated Values Surveys (2024)",
+    "url": "https://ourworldindata.org/grapher/how-important-religion-is-in-your-life"
+  },
+  {
+    "id": "owid63",
+    "text": "What percentage of people in Japan say religion is very important in their life?",
+    "answer": 5,
+    "exact": 4.58,
+    "year": 2022,
+    "source": "Integrated Values Surveys (2024)",
+    "url": "https://ourworldindata.org/grapher/how-important-religion-is-in-your-life"
+  },
+  {
+    "id": "owid64",
+    "text": "What percentage of people in Nigeria say religion is very important in their life?",
+    "answer": 93,
+    "exact": 93.44,
+    "year": 2022,
+    "source": "Integrated Values Surveys (2024)",
+    "url": "https://ourworldindata.org/grapher/how-important-religion-is-in-your-life"
+  },
+  {
+    "id": "owid65",
+    "text": "What percentage of Americans agree that \"most people can be trusted\"?",
+    "answer": 37,
+    "exact": 37.02,
+    "year": 2022,
+    "source": "Integrated Values Surveys (2024)",
+    "url": "https://ourworldindata.org/grapher/self-reported-trust-attitudes"
+  },
+  {
+    "id": "owid66",
+    "text": "What percentage of Norwegians agree that \"most people can be trusted\"?",
+    "answer": 72,
+    "exact": 72.09,
+    "year": 2022,
+    "source": "Integrated Values Surveys (2024)",
+    "url": "https://ourworldindata.org/grapher/self-reported-trust-attitudes"
+  },
+  {
+    "id": "owid67",
+    "text": "What percentage of Brazilians agree that \"most people can be trusted\"?",
+    "answer": 7,
+    "exact": 6.52,
+    "year": 2022,
+    "source": "Integrated Values Surveys (2024)",
+    "url": "https://ourworldindata.org/grapher/self-reported-trust-attitudes"
+  },
+  {
+    "id": "owid68",
+    "text": "What percentage of the world's people have safe drinking water at home?",
+    "answer": 74,
+    "exact": 73.74,
+    "year": 2024,
+    "source": "WHO/UNICEF Joint Monitoring Programme for Water Supply, Sanitation and Hygiene (2025)",
+    "url": "https://ourworldindata.org/grapher/proportion-using-safely-managed-drinking-water"
+  },
+  {
+    "id": "owid69",
+    "text": "What percentage of the world's people have soap and water for handwashing at home?",
+    "answer": 80,
+    "exact": 79.73,
+    "year": 2024,
+    "source": "WHO/UNICEF Joint Monitoring Programme for Water Supply, Sanitation and Hygiene (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-the-population-with-access-to-handwashing-facilities"
+  },
+  {
+    "id": "owid70",
+    "text": "What percentage of the fresh water humans take from rivers, lakes and the ground is used for farming?",
+    "answer": 71,
+    "exact": 71.02,
+    "year": 2022,
+    "source": "AQUASTAT - FAO's Global Information System on Water and Agriculture, FAO, via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/agricultural-water-as-a-share-of-total-water-withdrawals"
+  },
+  {
+    "id": "owid71",
+    "text": "What percentage of the world's primary schools have internet for teaching?",
+    "answer": 48,
+    "exact": 47.98,
+    "year": 2024,
+    "source": "UNESCO Institute for Statistics",
+    "url": "https://ourworldindata.org/grapher/primary-schools-with-access-to-internet"
+  },
+  {
+    "id": "owid72",
+    "text": "What percentage of the world's primary schools have separate toilets for girls and boys?",
+    "answer": 77,
+    "exact": 77.28,
+    "year": 2024,
+    "source": "UNESCO Institute for Statistics (2026)",
+    "url": "https://ourworldindata.org/grapher/percentage-of-primary-schools-with-toilets"
+  },
+  {
+    "id": "owid73",
+    "text": "What percentage of Japan's land is covered by forest?",
+    "answer": 68,
+    "exact": 68.32,
+    "year": 2025,
+    "source": "Food and Agriculture Organization of the United Nations and historical sources",
+    "url": "https://ourworldindata.org/grapher/forest-area-as-share-of-land-area"
+  },
+  {
+    "id": "owid74",
+    "text": "What percentage of Canada's land is covered by forest?",
+    "answer": 42,
+    "exact": 41.97,
+    "year": 2025,
+    "source": "Food and Agriculture Organization of the United Nations and historical sources",
+    "url": "https://ourworldindata.org/grapher/forest-area-as-share-of-land-area"
+  },
+  {
+    "id": "owid75",
+    "text": "What percentage of Australia's land is covered by forest?",
+    "answer": 17,
+    "exact": 17.36,
+    "year": 2025,
+    "source": "Food and Agriculture Organization of the United Nations and historical sources",
+    "url": "https://ourworldindata.org/grapher/forest-area-as-share-of-land-area"
+  },
+  {
+    "id": "owid76",
+    "text": "What percentage of Australia's land is used for farming?",
+    "answer": 47,
+    "exact": 47.22,
+    "year": 2023,
+    "source": "Food and Agriculture Organization of the United Nations (FAO), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-land-area-used-for-agriculture"
+  },
+  {
+    "id": "owid77",
+    "text": "What percentage of the world's land is in protected areas like national parks?",
+    "answer": 17,
+    "exact": 16.51,
+    "year": 2025,
+    "source": "Protected Planet WDPA and WD-OECM data, UNEP-WCMC and IUCN, via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/terrestrial-protected-areas"
+  },
+  {
+    "id": "owid78",
+    "text": "What percentage of the world's coastal waters are protected?",
+    "answer": 17,
+    "exact": 17.46,
+    "year": 2025,
+    "source": "Protected Planet WDPA and WD-OECM data, UNEP-WCMC and IUCN, via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/marine-protected-areas"
+  },
+  {
+    "id": "owid79",
+    "text": "What percentage of the world's farmland is organic?",
+    "answer": 2,
+    "exact": 2.06,
+    "year": 2023,
+    "source": "Food and Agriculture Organization of the United Nations (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-arable-land-which-is-organic"
+  },
+  {
+    "id": "owid80",
+    "text": "What percentage of the world's fish stocks are overfished?",
+    "answer": 36,
+    "exact": 35.5,
+    "year": 2021,
+    "source": "Food and Agriculture Organization of the United Nations (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-fish-stocks-overexploited"
+  },
+  {
+    "id": "owid81",
+    "text": "What percentage of the world's electricity comes from low-carbon sources (renewables and nuclear)?",
+    "answer": 43,
+    "exact": 42.61,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=low_carbon"
+  },
+  {
+    "id": "owid82",
+    "text": "What percentage of the world's electricity comes from hydropower?",
+    "answer": 14,
+    "exact": 13.96,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=hydro"
+  },
+  {
+    "id": "owid83",
+    "text": "What percentage of Norway's electricity comes from hydropower?",
+    "answer": 90,
+    "exact": 90.03,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=hydro"
+  },
+  {
+    "id": "owid84",
+    "text": "What percentage of Brazil's electricity comes from hydropower?",
+    "answer": 52,
+    "exact": 51.78,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=hydro"
+  },
+  {
+    "id": "owid85",
+    "text": "What percentage of the world's electricity comes from natural gas?",
+    "answer": 22,
+    "exact": 21.78,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=gas"
+  },
+  {
+    "id": "owid86",
+    "text": "What percentage of US electricity comes from natural gas?",
+    "answer": 40,
+    "exact": 39.99,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=gas"
+  },
+  {
+    "id": "owid87",
+    "text": "What percentage of the world's electricity comes from burning oil?",
+    "answer": 3,
+    "exact": 2.65,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=oil"
+  },
+  {
+    "id": "owid88",
+    "text": "What percentage of US electricity comes from nuclear power?",
+    "answer": 17,
+    "exact": 17.36,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=nuclear"
+  },
+  {
+    "id": "owid89",
+    "text": "What percentage of Japan's electricity comes from nuclear power?",
+    "answer": 9,
+    "exact": 9.14,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=nuclear"
+  },
+  {
+    "id": "owid90",
+    "text": "What percentage of Germany's electricity comes from renewables?",
+    "answer": 59,
+    "exact": 59.09,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=renewables"
+  },
+  {
+    "id": "owid91",
+    "text": "What percentage of US electricity comes from renewables?",
+    "answer": 26,
+    "exact": 25.64,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=renewables"
+  },
+  {
+    "id": "owid92",
+    "text": "What percentage of India's electricity comes from coal?",
+    "answer": 71,
+    "exact": 70.82,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=coal"
+  },
+  {
+    "id": "owid93",
+    "text": "What percentage of Poland's electricity comes from coal?",
+    "answer": 50,
+    "exact": 50.4,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=coal"
+  },
+  {
+    "id": "owid94",
+    "text": "What percentage of Australia's electricity comes from solar power?",
+    "answer": 20,
+    "exact": 19.59,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=solar"
+  },
+  {
+    "id": "owid95",
+    "text": "What percentage of the UK's electricity comes from wind power?",
+    "answer": 29,
+    "exact": 29.37,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-mix?frequency=annual&metric=share_of_generation&source=wind"
+  },
+  {
+    "id": "owid96",
+    "text": "What percentage of US energy comes from fossil fuels?",
+    "answer": 83,
+    "exact": 83.17,
+    "year": 2025,
+    "source": "Energy Institute – Statistical Review of World Energy (2026); Smil (2017); U.S. Energy Information Administration (2026)",
+    "url": "https://ourworldindata.org/grapher/energy-mix?metric=share&source=fossil_fuels"
+  },
+  {
+    "id": "owid97",
+    "text": "Electricity makes up what percentage of the world's total energy use?",
+    "answer": 19,
+    "exact": 19.05,
+    "year": 2025,
+    "source": "Ember (2026) and other sources",
+    "url": "https://ourworldindata.org/grapher/electricity-as-a-share-of-primary-energy"
+  },
+  {
+    "id": "owid98",
+    "text": "What percentage of the world's electricity is used by data centers?",
+    "answer": 2,
+    "exact": 1.53,
+    "year": 2025,
+    "source": "International Energy Agency (2025, 2026); Ember (2026)",
+    "url": "https://ourworldindata.org/grapher/data-centers-share-electricity-demand"
+  },
+  {
+    "id": "owid99",
+    "text": "What percentage of US electricity is used by data centers?",
+    "answer": 5,
+    "exact": 4.94,
+    "year": 2025,
+    "source": "International Energy Agency (2025, 2026); Ember (2026)",
+    "url": "https://ourworldindata.org/grapher/data-centers-share-electricity-demand"
+  },
+  {
+    "id": "owid100",
+    "text": "What percentage of new cars sold worldwide are electric?",
+    "answer": 25,
+    "exact": 25.0,
+    "year": 2025,
+    "source": "International Energy Agency. Global EV Outlook 2026.",
+    "url": "https://ourworldindata.org/grapher/electric-car-sales-share"
+  },
+  {
+    "id": "owid101",
+    "text": "What percentage of new cars sold in Norway are electric?",
+    "answer": 97,
+    "exact": 97.0,
+    "year": 2025,
+    "source": "International Energy Agency. Global EV Outlook 2026.",
+    "url": "https://ourworldindata.org/grapher/electric-car-sales-share"
+  },
+  {
+    "id": "owid102",
+    "text": "What percentage of new cars sold in China are electric?",
+    "answer": 53,
+    "exact": 53.0,
+    "year": 2025,
+    "source": "International Energy Agency. Global EV Outlook 2026.",
+    "url": "https://ourworldindata.org/grapher/electric-car-sales-share"
+  },
+  {
+    "id": "owid103",
+    "text": "What percentage of new cars sold in the United States are electric?",
+    "answer": 10,
+    "exact": 10.0,
+    "year": 2025,
+    "source": "International Energy Agency. Global EV Outlook 2026.",
+    "url": "https://ourworldindata.org/grapher/electric-car-sales-share"
+  },
+  {
+    "id": "owid104",
+    "text": "What percentage of US government spending goes to the military?",
+    "answer": 8,
+    "exact": 8.25,
+    "year": 2025,
+    "source": "Stockholm International Peace Research Institute (2026)",
+    "url": "https://ourworldindata.org/grapher/military-expenditure-as-a-share-of-government-spending"
+  }
+]
