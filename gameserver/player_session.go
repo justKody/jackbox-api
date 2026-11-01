@@ -5,8 +5,8 @@ import (
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
+	"github.com/justKody/jackbox-api/gameserver/wsmsg"
 	"github.com/justKody/jackbox-api/types"
-	"github.com/justKody/jackbox-api/wsmsg"
 )
 
 type PlayerSession struct {

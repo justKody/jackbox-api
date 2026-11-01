@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"github.com/anthdm/hollywood/actor"
-	"github.com/justKody/jackbox-api/actorutil"
 	"github.com/justKody/jackbox-api/game/rank"
-	"github.com/justKody/jackbox-api/roomcode"
+	"github.com/justKody/jackbox-api/gameserver/actorutil"
+	"github.com/justKody/jackbox-api/gameserver/roomcode"
 	"github.com/justKody/jackbox-api/types"
 )
 

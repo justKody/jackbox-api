@@ -11,8 +11,8 @@ import (
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
 	"github.com/justKody/jackbox-api/config"
+	"github.com/justKody/jackbox-api/gameserver/wsmsg"
 	"github.com/justKody/jackbox-api/types"
-	"github.com/justKody/jackbox-api/wsmsg"
 )
 
 type GameServer struct {
@@ -103,13 +103,13 @@ func (s *GameServer) handlePlayerAction(player *actor.PID, msg *types.PlayerActi
 }
 
 func (s *GameServer) startHttp() {
-	addr := config.Addr()
+	addr := ":" + config.Envs.Port
 	fmt.Println("starting HTTP server on", addr)
 	// replace it with mux router
 	go func() {
 		http.HandleFunc("/ws", s.handleWs)
 		// question voice-overs, until they move to a bucket (see question.VoiceURL)
-		http.Handle("/assets/v2/", http.StripPrefix("/assets/", http.FileServer(http.Dir(config.AssetDir()))))
+		http.Handle("/assets/v2/", http.StripPrefix("/assets/", http.FileServer(http.Dir(config.Envs.AssetDir))))
 		// e.g. the port is taken, without this the process deadlocks in Run's select
 		if err := http.ListenAndServe(addr, nil); err != nil {
 			log.Fatalf("http server on %s stopped: %v", addr, err)

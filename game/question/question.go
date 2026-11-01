@@ -33,13 +33,10 @@ func load() []Question {
 	return qs
 }
 
-// where clients fetch voice-overs from, see config.AssetBaseURL
-var assetBase = config.AssetBaseURL()
-
 // VoiceURL is where a client can fetch the voice-over, "" when there is none
 func (q Question) VoiceURL() string {
 	if q.VoiceOver == "" {
 		return ""
 	}
-	return assetBase + "/" + q.VoiceOver
+	return config.Envs.AssetBaseURL + "/" + q.VoiceOver
 }
