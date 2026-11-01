@@ -2,7 +2,7 @@
 
 # build the game server binary
 build:
-	@go build -o bin/server .
+	@go build -o build/server .
 
 # build and start the game server on :4000
 server: build
