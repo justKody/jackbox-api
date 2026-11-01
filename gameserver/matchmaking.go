@@ -2,19 +2,18 @@ package engine
 
 import (
 	"fmt"
-	"math/rand"
 	"time"
 
 	"github.com/anthdm/hollywood/actor"
+	"github.com/justKody/jackbox-api/actorutil"
 	"github.com/justKody/jackbox-api/game/rank"
+	"github.com/justKody/jackbox-api/roomcode"
 	"github.com/justKody/jackbox-api/types"
 )
 
 const (
-	maxLobbyPlayers = 5 // the app's table is laid out for five
-	lobbyCodeLength = 4
-	lobbyCodeChars  = "ABCDEFGHJKLMNPQRSTUVWXYZ" // no I/O so codes are easy to read out loud
-	matchmakingWait = 3 * time.Second            // how long a player waits before being put in a lobby
+	maxLobbyPlayers = 5               // the app's table is laid out for five
+	matchmakingWait = 3 * time.Second // how long a player waits before being put in a lobby
 )
 
 // a player waiting out matchmakingWait before being placed in a lobby
@@ -60,14 +59,9 @@ func (s *GameServer) handleMatchmaking(player *actor.PID, profile types.Profile)
 	}
 
 	t := &matchTicket{player: player, profile: profile}
-	// the timer runs on its own goroutine, so it reports back via a message
-	// instead of touching server state directly
-	engine, self := s.ctx.Engine(), s.ctx.PID()
-	t.timer = time.AfterFunc(matchmakingWait, func() {
-		engine.Send(self, &types.ServerActionMessage{
-			Action: types.PlacePlayer,
-			Msg:    t,
-		})
+	t.timer = actorutil.SendAfter(s.ctx.Engine(), s.ctx.PID(), matchmakingWait, &types.ServerActionMessage{
+		Action: types.PlacePlayer,
+		Msg:    t,
 	})
 	s.waiting[key] = t
 }
@@ -183,7 +177,10 @@ func (s *GameServer) handleCancelMatch(player *actor.PID) {
 
 // spawns the child, used if there exist no lobby
 func (s *GameServer) createLobby() *lobbyInfo {
-	id := s.newLobbyCode()
+	id := roomcode.New(func(code string) bool {
+		_, taken := s.lobbies[code]
+		return taken
+	})
 	pid := s.ctx.SpawnChild(newLobby(s.ctx.PID(), id), fmt.Sprintf("lobby_%s", id))
 	l := &lobbyInfo{
 		id:      id,
@@ -193,17 +190,4 @@ func (s *GameServer) createLobby() *lobbyInfo {
 	s.lobbies[id] = l
 	fmt.Println("created lobby", id)
 	return l
-}
-
-// jackbox style room code, e.g. "QXRT"
-func (s *GameServer) newLobbyCode() string {
-	for {
-		b := make([]byte, lobbyCodeLength)
-		for i := range b {
-			b[i] = lobbyCodeChars[rand.Intn(len(lobbyCodeChars))]
-		}
-		if _, taken := s.lobbies[string(b)]; !taken {
-			return string(b)
-		}
-	}
 }

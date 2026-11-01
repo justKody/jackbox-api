@@ -2,15 +2,17 @@ package engine
 
 import (
 	"fmt"
+	"log"
 	"math"
 	"math/rand"
 	"net/http"
-	"strings"
 	"sync"
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
+	"github.com/justKody/jackbox-api/config"
 	"github.com/justKody/jackbox-api/types"
+	"github.com/justKody/jackbox-api/wsmsg"
 )
 
 type GameServer struct {
@@ -101,11 +103,17 @@ func (s *GameServer) handlePlayerAction(player *actor.PID, msg *types.PlayerActi
 }
 
 func (s *GameServer) startHttp() {
-	fmt.Println("starting HTTP server on port 4000")
+	addr := config.Addr()
+	fmt.Println("starting HTTP server on", addr)
 	// replace it with mux router
 	go func() {
 		http.HandleFunc("/ws", s.handleWs)
-		http.ListenAndServe(":4000", nil)
+		// question voice-overs, until they move to a bucket (see question.VoiceURL)
+		http.Handle("/assets/v2/", http.StripPrefix("/assets/", http.FileServer(http.Dir(config.AssetDir()))))
+		// e.g. the port is taken, without this the process deadlocks in Run's select
+		if err := http.ListenAndServe(addr, nil); err != nil {
+			log.Fatalf("http server on %s stopped: %v", addr, err)
+		}
 	}()
 }
 
@@ -113,10 +121,7 @@ var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 	CheckOrigin: func(r *http.Request) bool {
-		origin := r.Header.Get("Origin")
-		// allowing no origin header, any localhost dev origin, and same host
-		// origins (React Native on a phone sets the origin to the server it dials)
-		return origin == "" || strings.HasPrefix(origin, "http://localhost") || strings.TrimPrefix(origin, "http://") == r.Host
+		return wsmsg.AllowOrigin(r.Header.Get("Origin"), r.Host)
 	},
 }
 
@@ -143,7 +148,7 @@ func (s *GameServer) handleWs(w http.ResponseWriter, r *http.Request) {
 func Run() {
 	e, err := actor.NewEngine(actor.NewEngineConfig())
 	if err != nil {
-		fmt.Print("some error while starting the server:", err)
+		log.Fatalf("could not start the actor engine: %v", err)
 	}
 	e.Spawn(newGameServer(), "server")
 	select {}

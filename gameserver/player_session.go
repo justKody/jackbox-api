@@ -1,12 +1,12 @@
 package engine
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
 	"github.com/justKody/jackbox-api/types"
+	"github.com/justKody/jackbox-api/wsmsg"
 )
 
 type PlayerSession struct {
@@ -55,14 +55,8 @@ func (p *PlayerSession) Receive(c *actor.Context) {
 	}
 }
 
-// write this out somewhere else ( maybe util)
 func (p *PlayerSession) writeJSON(msgType string, data any) {
-	b, err := json.Marshal(data)
-	if err != nil {
-		fmt.Println("marshal error in player session", err)
-		return
-	}
-	if err := p.conn.WriteJSON(types.WSMessage{Type: msgType, Data: b}); err != nil {
+	if err := wsmsg.Write(p.conn, msgType, data); err != nil {
 		fmt.Println("write error in player session", err)
 	}
 }
@@ -118,13 +112,10 @@ func (p *PlayerSession) handleMessage(msg types.WSMessage) {
 	}
 }
 
-// decode reads a message's data, findMatch may come without any
+// decode reads a message's data, logging and dropping the message when it's malformed
 func (p *PlayerSession) decode(msg types.WSMessage, v any) bool {
-	if len(msg.Data) == 0 {
-		return true
-	}
-	if err := json.Unmarshal(msg.Data, v); err != nil {
-		fmt.Println("bad data for", msg.Type, err)
+	if err := wsmsg.Decode(msg, v); err != nil {
+		fmt.Println(err)
 		return false
 	}
 	return true

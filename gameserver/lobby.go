@@ -3,11 +3,13 @@ package engine
 import (
 	"fmt"
 	"math"
-	"strings"
+	"slices"
 	"time"
 
 	"github.com/anthdm/hollywood/actor"
+	"github.com/justKody/jackbox-api/actorutil"
 	"github.com/justKody/jackbox-api/game"
+	"github.com/justKody/jackbox-api/game/player"
 	gametype "github.com/justKody/jackbox-api/game/types"
 	"github.com/justKody/jackbox-api/types"
 )
@@ -20,9 +22,6 @@ const (
 	// clients lock their own guess when their dial runs out, the server only steps in if that never arrives
 	timerGrace = 2 * time.Second
 )
-
-// seat colors, in join order
-var seatColors = []string{"#FFD23F", "#4C8DFF", "#FF8A3D", "#B58CFF", "#5ED3A8"}
 
 type seat struct {
 	pid     *actor.PID
@@ -129,7 +128,7 @@ func (l *Lobby) handleAdd(msg *addPlayer) {
 	l.joined++
 	name := msg.profile.Name
 	if name == "" {
-		name = fmt.Sprintf("Player %d", l.joined)
+		name = player.DefaultName(l.joined)
 	}
 	s := &seat{
 		pid:     msg.pid,
@@ -137,8 +136,8 @@ func (l *Lobby) handleAdd(msg *addPlayer) {
 		player: gametype.Player{
 			ID:       fmt.Sprintf("p%d", l.joined),
 			Name:     name,
-			Initials: initials(name),
-			Color:    seatColors[(l.joined-1)%len(seatColors)],
+			Initials: player.Initials(name),
+			Color:    player.SeatColor(l.joined),
 			Animal:   msg.profile.Animal,
 			Skin:     msg.profile.Skin,
 		},
@@ -163,11 +162,8 @@ func (l *Lobby) handleRemove(pid *actor.PID) {
 		return
 	}
 	delete(l.byPID, pid.String())
-	for i, o := range l.seats {
-		if o == s {
-			l.seats = append(l.seats[:i], l.seats[i+1:]...)
-			break
-		}
+	if i := slices.Index(l.seats, s); i >= 0 {
+		l.seats = slices.Delete(l.seats, i, i+1)
 	}
 
 	if l.game == nil {
@@ -200,11 +196,7 @@ func (l *Lobby) start() {
 		l.startTimer.Stop()
 		l.startTimer = nil
 	}
-	players := make([]gametype.Player, len(l.seats))
-	for i, s := range l.seats {
-		players[i] = s.player
-	}
-	g, err := game.NewGame(players, nil)
+	g, err := game.NewGame(l.players(), nil)
 	if err != nil {
 		fmt.Println("could not start game in lobby", l.lobbyId, err)
 		return
@@ -294,14 +286,22 @@ func (l *Lobby) sync() {
 
 	l.broadcastGame()
 	if g.Phase == gametype.PhaseGameOver {
-		seats := append([]*seat(nil), l.seats...)
 		l.ctx.Send(l.serverPID, &lobbyFinished{
 			lobbyId: l.lobbyId,
 			ranked:  !l.abandoned,
-			players: append([]gametype.Player(nil), g.Players...),
-			seats:   seats,
+			players: slices.Clone(g.Players),
+			seats:   slices.Clone(l.seats),
 		})
 	}
+}
+
+// players is everyone seated, in join order
+func (l *Lobby) players() []gametype.Player {
+	players := make([]gametype.Player, len(l.seats))
+	for i, s := range l.seats {
+		players[i] = s.player
+	}
+	return players
 }
 
 func (l *Lobby) allReady() bool {
@@ -322,11 +322,9 @@ func (l *Lobby) deadline(d time.Duration) {
 	l.timer = l.after(d, &phaseTimeout{tick: l.tick})
 }
 
-// timers run on their own goroutine, so they report back via a message
-// instead of touching lobby state directly
+// after sends msg back to this lobby once d has passed
 func (l *Lobby) after(d time.Duration, msg any) *time.Timer {
-	engine, self := l.ctx.Engine(), l.ctx.PID()
-	return time.AfterFunc(d, func() { engine.Send(self, msg) })
+	return actorutil.SendAfter(l.ctx.Engine(), l.ctx.PID(), d, msg)
 }
 
 func (l *Lobby) stopTimers() {
@@ -341,10 +339,7 @@ func (l *Lobby) stopTimers() {
 
 // tell every player in the lobby who's in and when the game starts
 func (l *Lobby) broadcastLobby() {
-	players := make([]gametype.Player, len(l.seats))
-	for i, s := range l.seats {
-		players[i] = s.player
-	}
+	players := l.players()
 	startsIn := 0
 	if l.startTimer != nil {
 		startsIn = int(math.Ceil(time.Until(l.startsAt).Seconds()))
@@ -375,14 +370,4 @@ func (l *Lobby) broadcastDial(guesser *seat) {
 			l.ctx.Send(s.pid, update)
 		}
 	}
-}
-
-// "Priya Shah" -> "PS", "Sam" -> "SA", "Player 3" -> "P3"
-func initials(name string) string {
-	parts := strings.Fields(name)
-	if len(parts) >= 2 {
-		return strings.ToUpper(string([]rune(parts[0])[:1]) + string([]rune(parts[1])[:1]))
-	}
-	r := []rune(name)
-	return strings.ToUpper(string(r[:min(2, len(r))]))
 }

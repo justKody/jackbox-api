@@ -132,3 +132,15 @@ func TestDial(t *testing.T) {
 		t.Fatalf("dial is locked once the guess is in, got %v", err)
 	}
 }
+
+// every round's question goes out with the Hat's reading of it
+func TestViewSendsVoiceOver(t *testing.T) {
+	g := newTestGame(t, "a", "b", "c")
+	for round := 0; round < g.TotalRounds(); round++ {
+		g.Round = round
+		q := g.View().Question
+		if q.VoiceOver != "/assets/v2/"+q.ID+".mp3" {
+			t.Errorf("round %d: question %s sent voice-over %q", round, q.ID, q.VoiceOver)
+		}
+	}
+}

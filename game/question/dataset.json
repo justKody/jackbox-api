@@ -1,0 +1,92 @@
+[
+  {
+    "id": "owid1",
+    "text": "What percentage of the world's people use the internet?",
+    "answer": 74,
+    "voiceOver": "v2/owid1.mp3",
+    "year": 2025,
+    "source": "World Telecommunication/ICT Indicators Database - International Telecommunication Union (ITU), via World Bank (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-individuals-using-the-internet"
+  },
+  {
+    "id": "owid2",
+    "text": "What percentage of the world's people live in cities?",
+    "answer": 58,
+    "voiceOver": "v2/owid2.mp3",
+    "year": 2025,
+    "source": "United Nations Department of Economic and Social Affairs, Population Division (2025)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-urban"
+  },
+  {
+    "id": "owid3",
+    "text": "What percentage of the world's people live in extreme poverty (under $3 a day)?",
+    "answer": 10,
+    "voiceOver": "v2/owid3.mp3",
+    "year": 2026,
+    "source": "World Bank Poverty and Inequality Platform (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-population-in-extreme-poverty"
+  },
+  {
+    "id": "owid4",
+    "text": "What percentage of the world's people have access to electricity?",
+    "answer": 92,
+    "voiceOver": "v2/owid4.mp3",
+    "year": 2024,
+    "source": "Data compiled from multiple sources by the World Bank",
+    "url": "https://ourworldindata.org/grapher/share-of-the-population-with-access-to-electricity"
+  },
+  {
+    "id": "owid5",
+    "text": "What percentage of the world's people cook with clean fuels like gas or electricity?",
+    "answer": 75,
+    "voiceOver": "v2/owid5.mp3",
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/access-to-clean-fuels-and-technologies-for-cooking"
+  },
+  {
+    "id": "owid6",
+    "text": "What percentage of the world's adults smoke tobacco?",
+    "answer": 20,
+    "voiceOver": "v2/owid6.mp3",
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-who-smoke"
+  },
+  {
+    "id": "owid7",
+    "text": "What percentage of the world's adults are obese?",
+    "answer": 16,
+    "voiceOver": "v2/owid7.mp3",
+    "year": 2024,
+    "source": "World Health Organization – Global Health Observatory (2026)",
+    "url": "https://ourworldindata.org/grapher/share-of-adults-defined-as-obese"
+  },
+  {
+    "id": "owid8",
+    "text": "What percentage of the world's people are undernourished?",
+    "answer": 8,
+    "voiceOver": "v2/owid8.mp3",
+    "year": 2024,
+    "source": "Food and Agriculture Organization of the United Nations (2025)",
+    "url": "https://ourworldindata.org/grapher/prevalence-of-undernourishment"
+  },
+  {
+    "id": "owid9",
+    "text": "What percentage of the world's adults can read and write?",
+    "answer": 88,
+    "voiceOver": "v2/owid9.mp3",
+    "year": 2024,
+    "source": "UNESCO Institute for Statistics (2026)",
+    "url": "https://ourworldindata.org/grapher/literacy?age_group=adult&sex=both"
+  },
+  {
+    "id": "owid10",
+    "text": "What percentage of children worldwide die before their fifth birthday?",
+    "answer": 4,
+    "voiceOver": "v2/owid10.mp3",
+    "year": 2024,
+    "source": "Gapminder (2015); UN Inter-agency Group for Child Mortality Estimation (2025)",
+    "url": "https://ourworldindata.org/grapher/child-mortality"
+  }
+]

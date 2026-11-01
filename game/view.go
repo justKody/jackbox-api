@@ -1,12 +1,19 @@
 package game
 
-import gametype "github.com/justKody/jackbox-api/game/types"
+import (
+	"maps"
+	"slices"
+
+	gametype "github.com/justKody/jackbox-api/game/types"
+)
 
 // QuestionView is a question as clients see it, the answer stays hidden until the reveal
 type QuestionView struct {
-	ID     string `json:"id"`
-	Text   string `json:"text"`
-	Answer *int   `json:"answer,omitempty"`
+	ID   string `json:"id"`
+	Text string `json:"text"`
+	// url of the Hat reading the question, played as the question appears
+	VoiceOver string `json:"voiceOver,omitempty"`
+	Answer    *int   `json:"answer,omitempty"`
 }
 
 // View is what gets sent to clients. State itself carries every answer and
@@ -39,11 +46,11 @@ func (g *Game) View() View {
 
 	v := View{
 		Phase:       g.Phase,
-		Players:     append([]gametype.Player(nil), g.Players...),
+		Players:     slices.Clone(g.Players),
 		Round:       g.Round,
 		TotalRounds: g.TotalRounds(),
 		GuesserID:   g.Guesser().ID,
-		Question:    QuestionView{ID: q.ID, Text: q.Text},
+		Question:    QuestionView{ID: q.ID, Text: q.Text, VoiceOver: q.VoiceURL()},
 		Guess:       g.Guess,
 		Dial:        g.Dial,
 		Locked:      locked,
@@ -52,11 +59,8 @@ func (g *Game) View() View {
 		answer := q.Answer
 		v.Question.Answer = &answer
 		// copied, the view is read on other goroutines while the game keeps going
-		v.Votes = make(map[string]gametype.Call, len(g.Votes))
-		for id, c := range g.Votes {
-			v.Votes[id] = c
-		}
-		v.Results = append([]gametype.RoundResult(nil), g.Results...)
+		v.Votes = maps.Clone(g.Votes)
+		v.Results = slices.Clone(g.Results)
 	}
 	return v
 }

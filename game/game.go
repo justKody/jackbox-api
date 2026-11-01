@@ -3,6 +3,7 @@ package game
 import (
 	"errors"
 	"math/rand/v2"
+	"slices"
 	"time"
 
 	"github.com/justKody/jackbox-api/game/question"
@@ -53,8 +54,7 @@ func (g *Game) reset(players []gametype.Player) {
 		p.Score = 0
 		ps[i] = p
 	}
-	qs := make([]question.Question, len(question.Bank))
-	copy(qs, question.Bank)
+	qs := slices.Clone(question.Bank)
 	g.rng.Shuffle(len(qs), func(i, j int) { qs[i], qs[j] = qs[j], qs[i] })
 
 	g.State = gametype.State{
@@ -200,7 +200,7 @@ func (g *Game) RemovePlayer(playerId string) bool {
 		return len(g.Players) >= 2
 	}
 	wasGuesser := i == g.GuesserIdx
-	g.Players = append(g.Players[:i], g.Players[i+1:]...)
+	g.Players = slices.Delete(g.Players, i, i+1)
 	delete(g.Votes, playerId)
 	// keep the guesser index valid even when the game is over, View still reads it
 	if i < g.GuesserIdx {
@@ -220,12 +220,7 @@ func (g *Game) RemovePlayer(playerId string) bool {
 }
 
 func (g *Game) playerIndex(playerId string) int {
-	for i, p := range g.Players {
-		if p.ID == playerId {
-			return i
-		}
-	}
-	return -1
+	return slices.IndexFunc(g.Players, func(p gametype.Player) bool { return p.ID == playerId })
 }
 
 func clamp(n int) int {
