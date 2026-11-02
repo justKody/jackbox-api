@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	maxLobbyPlayers = 5               // the app's table is laid out for five
+	maxLobbyPlayers = 6               // the app's table is laid out for six
 	matchmakingWait = 3 * time.Second // how long a player waits before being put in a lobby
 )
 

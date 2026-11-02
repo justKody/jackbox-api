@@ -67,3 +67,19 @@ mkdir -p /tmp/wiz && ffmpeg -y -i "$SRC" -frames:v 240 -vf "crop=1248:1248:242:0
   style={{ width: hatSize, height: hatSize }}  // hatSize = min(210, screenHeight * 0.22)
 />
 ```
+
+# Matchmaking wizard animation
+
+The looping wizard inside the portal on the "Finding rivals…" screen (`MatchmakingScreen`). Same green-screen process as above.
+
+| Setting | Value |
+|---|---|
+| Source | `backend/s3asset/Agent Video - 2D animation_ single continuous take_ no cuts_ Polished chibi mobile-game sprite anima00000014.mov` (H.264, no alpha, 1440 × 1440, 24 fps, 55 frames, green `#03D130`) |
+| Output | `trivia-app/assets/wizard-matchmaking.webp`, 480 × 480, 54 frames (last frame dropped, it repeats the first), about 2.3 s loop, 1.05 MB |
+| Crop | `1080×1080` at x=120, y=182: square around every frame's wizard, swirls and shadow |
+| Shown | 200 × 200 pt while connecting, searching and matched; an "Add a sad wizard" placeholder shows when the server can't be reached |
+
+```bash
+SRC="backend/s3asset/Agent Video - 2D animation_ single continuous take_ no cuts_ Polished chibi mobile-game sprite anima00000014.mov"
+mkdir -p /tmp/wizmm && ffmpeg -y -i "$SRC" -map 0:v -frames:v 54 -vf "crop=1080:1080:120:182,scale=480:480:flags=lanczos,format=yuv444p,chromakey=0x03D130:0.16:0.06,despill=type=green:mix=0.15:expand=0,format=rgba" /tmp/wizmm/f%03d.png && img2webp -loop 0 -lossy -q 60 -m 6 -d 42 /tmp/wizmm/*.png -o trivia-app/assets/wizard-matchmaking.webp && rm -rf /tmp/wizmm
+```

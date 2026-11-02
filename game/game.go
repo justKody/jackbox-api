@@ -4,19 +4,23 @@ import (
 	"errors"
 	"math/rand/v2"
 	"slices"
-	"time"
 
+	"github.com/justKody/jackbox-api/config"
 	"github.com/justKody/jackbox-api/game/question"
 	gametype "github.com/justKody/jackbox-api/game/types"
 )
 
 const (
-	Rounds       = 6
-	GuessSeconds = 20 * time.Second
-	VoteSeconds  = 15 * time.Second
+	Rounds = 6
 
 	// what the dial starts at, locked in if the guesser runs out of time
 	DefaultGuess = 50
+)
+
+// phase lengths, set in the env (GUESS_SECONDS, VOTE_SECONDS)
+var (
+	GuessSeconds = config.Envs.GuessSeconds
+	VoteSeconds  = config.Envs.VoteSeconds
 )
 
 var (
