@@ -24,6 +24,8 @@ type Config struct {
 	// clients are sent these with every game update and count down the same clock
 	GuessSeconds time.Duration
 	VoteSeconds  time.Duration
+	// how long the answer and standings stay up before the next round starts on its own
+	RevealSeconds time.Duration
 }
 
 // Envs is read once at startup, before any package level var that uses it
@@ -38,11 +40,12 @@ func initConfig() Config {
 	}
 
 	return Config{
-		Port:         getEnv("PORT", "4000"),
-		AssetDir:     getEnv("ASSET_DIR", "s3asset"),
-		AssetBaseURL: strings.TrimSuffix(getEnv("ASSET_BASE_URL", "/assets"), "/"),
-		GuessSeconds: getEnvSeconds("GUESS_SECONDS", 10),
-		VoteSeconds:  getEnvSeconds("VOTE_SECONDS", 10),
+		Port:          getEnv("PORT", "4000"),
+		AssetDir:      getEnv("ASSET_DIR", "s3asset"),
+		AssetBaseURL:  strings.TrimSuffix(getEnv("ASSET_BASE_URL", "/assets"), "/"),
+		GuessSeconds:  getEnvSeconds("GUESS_SECONDS", 10),
+		VoteSeconds:   getEnvSeconds("VOTE_SECONDS", 10),
+		RevealSeconds: getEnvSeconds("REVEAL_SECONDS", 15),
 	}
 }
 

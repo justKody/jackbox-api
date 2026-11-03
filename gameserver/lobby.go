@@ -17,7 +17,6 @@ import (
 const (
 	minLobbyPlayers = 2
 	lobbyStartWait  = 10 * time.Second // countdown once enough players are in, skipped when the lobby fills up
-	revealWait      = 15 * time.Second // the reveal moves on when everyone pressed next, or after this
 	allVotedWait    = 900 * time.Millisecond
 	// clients lock their own guess when their dial runs out, the server only steps in if that never arrives
 	timerGrace = 2 * time.Second
@@ -41,12 +40,11 @@ type Lobby struct {
 	startTimer *time.Timer
 
 	game      *game.Game
-	abandoned bool            // ended early because players left
-	phaseKey  string          // round/phase/guesser the current deadline belongs to
-	tick      int             // bumped on every new deadline, so stale timers are ignored
-	timer     *time.Timer     // the current phase's deadline
-	revealing bool            // everyone voted, reveal is scheduled
-	ready     map[string]bool // player id -> pressed next on the reveal
+	abandoned bool        // ended early because players left
+	phaseKey  string      // round/phase/guesser the current deadline belongs to
+	tick      int         // bumped on every new deadline, so stale timers are ignored
+	timer     *time.Timer // the current phase's deadline
+	revealing bool        // everyone voted, reveal is scheduled
 }
 
 func newLobby(serverPID *actor.PID, lobbyId string) actor.Producer {
@@ -181,10 +179,6 @@ func (l *Lobby) handleRemove(pid *actor.PID) {
 		l.game.Phase = gametype.PhaseGameOver
 		l.abandoned = true
 	}
-	delete(l.ready, s.player.ID)
-	if l.game.Phase == gametype.PhaseReveal && l.allReady() {
-		l.game.Next()
-	}
 	l.sync()
 }
 
@@ -226,15 +220,6 @@ func (l *Lobby) handleMove(m *playerMove) {
 			l.broadcastDial(s)
 		}
 		return
-	case types.Next:
-		if l.game.Phase != gametype.PhaseReveal {
-			err = game.ErrWrongPhase
-			break
-		}
-		l.ready[id] = true
-		if l.allReady() {
-			err = l.game.Next()
-		}
 	}
 	if err != nil {
 		l.ctx.Send(m.pid, &types.ActionError{Message: err.Error()})
@@ -272,8 +257,8 @@ func (l *Lobby) sync() {
 		case gametype.PhaseVote:
 			l.deadline(game.VoteSeconds + timerGrace)
 		case gametype.PhaseReveal:
-			l.ready = make(map[string]bool)
-			l.deadline(revealWait)
+			// nobody moves the reveal on, the next round starts when it runs out
+			l.deadline(g.RevealFor)
 		case gametype.PhaseGameOver:
 			l.stopTimers()
 		}
@@ -302,15 +287,6 @@ func (l *Lobby) players() []gametype.Player {
 		players[i] = s.player
 	}
 	return players
-}
-
-func (l *Lobby) allReady() bool {
-	for _, p := range l.game.Players {
-		if !l.ready[p.ID] {
-			return false
-		}
-	}
-	return true
 }
 
 // deadline replaces the current phase timer

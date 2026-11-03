@@ -88,7 +88,7 @@ func (s *GameServer) handlePlayerAction(player *actor.PID, msg *types.PlayerActi
 
 		// Leave room (now needed right now)
 
-	case types.LockGuess, types.Vote, types.Next, types.Dial:
+	case types.LockGuess, types.Vote, types.Dial:
 		// game moves go straight to the player's lobby
 		if l, ok := s.lobbies[s.playerLobby[player.String()]]; ok {
 			s.ctx.Send(l.pid, &playerMove{pid: player, action: msg.Action, msg: msg.Msg})

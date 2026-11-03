@@ -2,6 +2,7 @@ package game
 
 import (
 	"maps"
+	"math"
 	"slices"
 
 	gametype "github.com/justKody/jackbox-api/game/types"
@@ -30,6 +31,9 @@ type View struct {
 	// how long each timed phase lasts, so clients count down the same clock the server keeps
 	GuessSeconds int `json:"guessSeconds"`
 	VoteSeconds  int `json:"voteSeconds"`
+	// this round's reveal and standings together, the next round starts by itself after it.
+	// it can differ round to round, so clients read it from every update
+	RevealSeconds int `json:"revealSeconds"`
 	// who has locked in a call, so the table can show "Locked" without giving calls away
 	Locked  []string                 `json:"locked"`
 	Votes   map[string]gametype.Call `json:"votes,omitempty"` // only once revealed
@@ -62,6 +66,8 @@ func (g *Game) View() View {
 		VoteSeconds:  int(VoteSeconds.Seconds()),
 	}
 	if revealed {
+		// rounded up, so a client never moves on before the server does
+		v.RevealSeconds = int(math.Ceil(g.RevealFor.Seconds()))
 		answer := q.Answer
 		v.Question.Answer = &answer
 		// copied, the view is read on other goroutines while the game keeps going

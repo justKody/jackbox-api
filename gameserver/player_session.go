@@ -100,8 +100,6 @@ func (p *PlayerSession) handleMessage(msg types.WSMessage) {
 		if p.decode(msg, &m) {
 			p.sendAction(types.Vote, m)
 		}
-	case "next":
-		p.sendAction(types.Next, nil)
 	case "dial":
 		var m types.DialMsg
 		if p.decode(msg, &m) {

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math/rand/v2"
 	"slices"
+	"time"
 
 	"github.com/justKody/jackbox-api/config"
 	"github.com/justKody/jackbox-api/game/question"
@@ -17,10 +18,11 @@ const (
 	DefaultGuess = 50
 )
 
-// phase lengths, set in the env (GUESS_SECONDS, VOTE_SECONDS)
+// phase lengths, set in the env (GUESS_SECONDS, VOTE_SECONDS, REVEAL_SECONDS)
 var (
-	GuessSeconds = config.Envs.GuessSeconds
-	VoteSeconds  = config.Envs.VoteSeconds
+	GuessSeconds  = config.Envs.GuessSeconds
+	VoteSeconds   = config.Envs.VoteSeconds
+	RevealSeconds = config.Envs.RevealSeconds
 )
 
 var (
@@ -37,7 +39,9 @@ var (
 // the lobby that owns it drives it (e.g. calling GuessTimeout after GuessSeconds)
 type Game struct {
 	gametype.State
-	rng *rand.Rand
+	// how long this round's reveal (answer, then standings) stays up before the next round, set by Reveal
+	RevealFor time.Duration
+	rng       *rand.Rand
 }
 
 func NewGame(players []gametype.Player, rng *rand.Rand) (*Game, error) {
@@ -178,7 +182,15 @@ func (g *Game) Reveal() error {
 	}
 	g.Results = results
 	g.Phase = gametype.PhaseReveal
+	g.RevealFor = g.revealLength()
 	return nil
+}
+
+// revealLength is how long this round's reveal lasts. Every round gets REVEAL_SECONDS for now.
+// To time a round by something else, e.g. the length of audio played over it, return that here,
+// the lobby's timer and every client's countdown both follow it
+func (g *Game) revealLength() time.Duration {
+	return RevealSeconds
 }
 
 // Next moves on from the reveal, to the next round or to game over

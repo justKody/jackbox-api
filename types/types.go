@@ -24,7 +24,6 @@ const (
 	LeaveRoom
 	LockGuess
 	Vote
-	Next
 	Dial
 )
 
