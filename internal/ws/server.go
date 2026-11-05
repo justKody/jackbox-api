@@ -46,6 +46,7 @@ func (s *GameServer) Receive(c *actor.Context) {
 		s.handlePlayerAction(c.Sender(), msg)
 	case *types.ServerActionMessage:
 		s.handleServerAction(msg)
+
 	case *lobbyStarted:
 		if l, ok := s.lobbies[msg.lobbyId]; ok {
 			l.started = true
@@ -54,15 +55,6 @@ func (s *GameServer) Receive(c *actor.Context) {
 		s.handleBounced(msg)
 	case *lobbyFinished:
 		s.handleLobbyFinished(msg)
-	}
-}
-
-func (s *GameServer) handleServerAction(msg *types.ServerActionMessage) {
-	switch msg.Action {
-	case types.PlacePlayer:
-		s.handlePlacePlayer(msg.Msg.(*matchTicket))
-	default:
-		fmt.Println("unknown server action registered in game server")
 	}
 }
 
@@ -94,6 +86,15 @@ func (s *GameServer) handlePlayerAction(player *actor.PID, msg *types.PlayerActi
 
 	}
 
+}
+
+func (s *GameServer) handleServerAction(msg *types.ServerActionMessage) {
+	switch msg.Action {
+	case types.PlacePlayer:
+		s.handlePlacePlayer(msg.Msg.(*matchTicket))
+	default:
+		fmt.Println("unknown server action registered in game server")
+	}
 }
 
 var upgrader = websocket.Upgrader{

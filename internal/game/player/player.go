@@ -6,7 +6,7 @@ import (
 )
 
 // seat colors, in join order
-var seatColors = []string{"#FFD23F", "#4C8DFF", "#FF8A3D", "#B58CFF", "#5ED3A8"}
+var seatColors = []string{"#FFD23F", "#4C8DFF", "#FF8A3D", "#B58CFF", "#5ED3A8", "#FF6B9D"}
 
 // SeatColor is the color of the n-th seat handed out (1 based), colors repeat past the last one
 func SeatColor(n int) string {

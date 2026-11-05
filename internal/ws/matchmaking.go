@@ -30,21 +30,6 @@ type lobbyInfo struct {
 	started bool // a game is running, nobody else gets placed here
 }
 
-// findMatch returns the open lobby with the most players, so lobbies fill up
-// before new ones are created. Returns nil when every lobby is full or playing.
-func (s *GameServer) findMatch() *lobbyInfo {
-	var best *lobbyInfo
-	for _, l := range s.lobbies {
-		if l.started || len(l.players) >= maxLobbyPlayers {
-			continue
-		}
-		if best == nil || len(l.players) > len(best.players) {
-			best = l
-		}
-	}
-	return best
-}
-
 // handleMatchmaking makes the player wait matchmakingWait, then places them in a lobby
 func (s *GameServer) handleMatchmaking(player *actor.PID, profile types.Profile) {
 	key := player.String()
@@ -86,6 +71,21 @@ func (s *GameServer) placeInLobby(player *actor.PID, profile types.Profile) {
 	l.players[key] = player
 	s.playerLobby[key] = l.id
 	s.ctx.Send(l.pid, &addPlayer{pid: player, profile: profile})
+}
+
+// findMatch returns the open lobby with the most players, so lobbies fill up
+// before new ones are created. Returns nil when every lobby is full or playing.
+func (s *GameServer) findMatch() *lobbyInfo {
+	var best *lobbyInfo
+	for _, l := range s.lobbies {
+		if l.started || len(l.players) >= maxLobbyPlayers {
+			continue
+		}
+		if best == nil || len(l.players) > len(best.players) {
+			best = l
+		}
+	}
+	return best
 }
 
 // handleBounced places a player again whose lobby started before they got in
