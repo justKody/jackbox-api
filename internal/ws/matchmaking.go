@@ -1,13 +1,13 @@
-package gameserver
+package ws
 
 import (
 	"fmt"
 	"time"
 
 	"github.com/anthdm/hollywood/actor"
-	"github.com/justKody/jackbox-api/internal/gameserver/actorutil"
-	"github.com/justKody/jackbox-api/internal/gameserver/roomcode"
 	"github.com/justKody/jackbox-api/internal/types"
+	"github.com/justKody/jackbox-api/internal/ws/actorutil"
+	"github.com/justKody/jackbox-api/internal/ws/roomcode"
 )
 
 const (

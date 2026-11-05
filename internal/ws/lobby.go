@@ -1,4 +1,4 @@
-package gameserver
+package ws
 
 import (
 	"fmt"
@@ -10,8 +10,8 @@ import (
 	"github.com/justKody/jackbox-api/internal/game"
 	"github.com/justKody/jackbox-api/internal/game/player"
 	gametype "github.com/justKody/jackbox-api/internal/game/types"
-	"github.com/justKody/jackbox-api/internal/gameserver/actorutil"
 	"github.com/justKody/jackbox-api/internal/types"
+	"github.com/justKody/jackbox-api/internal/ws/actorutil"
 )
 
 const (

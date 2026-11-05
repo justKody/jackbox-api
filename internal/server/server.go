@@ -18,7 +18,7 @@ type Server struct {
 
 // New builds the server with every route in place, so nothing is registered
 // while it is already taking requests
-func New(listenAddr, assetDir string, handleWs http.HandlerFunc) *Server {
+func NewServer(listenAddr, assetDir string, handleWs http.HandlerFunc) *Server {
 	router := mux.NewRouter()
 	v1.HandleRoutes(router.PathPrefix("/v1").Subrouter())
 
@@ -33,7 +33,7 @@ func New(listenAddr, assetDir string, handleWs http.HandlerFunc) *Server {
 		httpServer: &http.Server{
 			Addr:              listenAddr,
 			Handler:           router,
-			ReadHeaderTimeout: 5 * time.Second, // to prevent dos slowloris attack
+			ReadHeaderTimeout: 5 * time.Second, // to prevent ddos slowloris attack
 		},
 	}
 }

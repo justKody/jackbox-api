@@ -1,4 +1,4 @@
-package gameserver
+package ws
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
 	"github.com/justKody/jackbox-api/internal/types"
-	"github.com/justKody/jackbox-api/internal/wsmsg"
+	"github.com/justKody/jackbox-api/internal/ws/wsmsg"
 )
 
 type GameServer struct {

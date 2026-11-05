@@ -10,18 +10,18 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/justKody/jackbox-api/internal/gameserver"
 	"github.com/justKody/jackbox-api/internal/types"
+	"github.com/justKody/jackbox-api/internal/ws"
 )
 
 // the real routes in front of a real game server
-func startServer(t *testing.T) (*gameserver.Service, *httptest.Server) {
+func startServer(t *testing.T) (*ws.Service, *httptest.Server) {
 	t.Helper()
-	games, err := gameserver.Start()
+	games, err := ws.Start()
 	if err != nil {
 		t.Fatal(err)
 	}
-	ts := httptest.NewServer(New(":0", "../../s3asset", games.HandleWs).Router)
+	ts := httptest.NewServer(NewServer(":0", "../../s3asset", games.HandleWs).Router)
 	t.Cleanup(func() {
 		ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 		defer cancel()
