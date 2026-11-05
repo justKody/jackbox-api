@@ -6,7 +6,7 @@ build:
 
 # build and start the game server on :4000
 server: build
-	@./bin/server
+	@./build/server
 
 # start without building a binary
 run:
@@ -25,4 +25,4 @@ fmt:
 check: fmt vet test
 
 clean:
-	@rm -rf bin
+	@rm -rf build
