@@ -1,6 +1,7 @@
 package gameserver
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 
@@ -116,6 +117,12 @@ func Start() (*Service, error) {
 		return nil, fmt.Errorf("could not start the actor engine: %w", err)
 	}
 	return &Service{engine: e, serverPID: e.Spawn(newGameServer(), "server")}, nil
+}
+
+// Stop poisons the game server actor and waits for it, its lobbies and its player
+// sessions to stop, or for ctx to end
+func (g *Service) Stop(ctx context.Context) {
+	<-g.engine.PoisonCtx(ctx, g.serverPID).Done()
 }
 
 // HandleWs upgrades a client to a websocket and hands it to the game server actor.

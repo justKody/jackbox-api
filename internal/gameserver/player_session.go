@@ -30,6 +30,9 @@ func (p *PlayerSession) Receive(c *actor.Context) {
 		// ctx must be set before readLoop sends anything with it
 		p.ctx = c
 		go p.readLoop()
+	case actor.Stopped:
+		// whether the client left or the server is shutting down, this also ends readLoop
+		p.conn.Close()
 
 	// writes only happen here, so the websocket never sees concurrent writers
 	case *types.LobbyUpdate:
@@ -61,7 +64,6 @@ func (p *PlayerSession) readLoop() {
 			// a close frame or a dropped connection both mean the client is gone,
 			// free up its lobby slot and stop this session
 			p.sendAction(types.CancelMatch, nil)
-			p.conn.Close()
 			p.ctx.Engine().Poison(p.ctx.PID())
 			return
 		}

@@ -7,11 +7,15 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/justKody/jackbox-api/internal/config"
 	"github.com/justKody/jackbox-api/internal/gameserver"
 	"github.com/justKody/jackbox-api/internal/server"
 )
+
+// how long open requests and actors get to finish once the server is stopping
+const shutdownTimeout = 5 * time.Second
 
 func main() {
 	if err := run(); err != nil {
@@ -35,9 +39,21 @@ func run() error {
 	select {
 	case <-ctx.Done():
 		log.Println("shutdown signal received")
-		return nil
 	case err := <-errCh:
 		// e.g. the port is taken
+		games.Stop(context.Background())
 		return fmt.Errorf("http server on %s stopped: %w", httpServer.ListenAddr, err)
 	}
+
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
+	defer cancel()
+
+	// stop taking clients first. Shutdown leaves websockets alone, stopping
+	// the game server is what closes them
+	if err := httpServer.Shutdown(shutdownCtx); err != nil {
+		log.Println("http server shutdown:", err)
+	}
+	games.Stop(shutdownCtx)
+	log.Println("server stopped")
+	return nil
 }
