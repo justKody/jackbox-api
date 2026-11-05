@@ -1,7 +1,7 @@
 package main
 
-import engine "github.com/justKody/jackbox-api/gameserver"
+import "github.com/justKody/jackbox-api/internal/gameserver"
 
 func main() {
-	engine.Run()
+	gameserver.Run()
 }

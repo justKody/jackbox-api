@@ -1,4 +1,4 @@
-package engine
+package gameserver
 
 import (
 	"fmt"
@@ -9,9 +9,9 @@ import (
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
-	"github.com/justKody/jackbox-api/config"
-	"github.com/justKody/jackbox-api/gameserver/wsmsg"
-	"github.com/justKody/jackbox-api/types"
+	"github.com/justKody/jackbox-api/internal/config"
+	"github.com/justKody/jackbox-api/internal/types"
+	"github.com/justKody/jackbox-api/internal/wsmsg"
 )
 
 type GameServer struct {

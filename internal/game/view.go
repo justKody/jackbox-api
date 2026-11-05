@@ -5,7 +5,7 @@ import (
 	"math"
 	"slices"
 
-	gametype "github.com/justKody/jackbox-api/game/types"
+	gametype "github.com/justKody/jackbox-api/internal/game/types"
 )
 
 // QuestionView is a question as clients see it, the answer stays hidden until the reveal

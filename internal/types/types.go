@@ -3,8 +3,8 @@ package types
 import (
 	"encoding/json"
 
-	"github.com/justKody/jackbox-api/game"
-	gametype "github.com/justKody/jackbox-api/game/types"
+	"github.com/justKody/jackbox-api/internal/game"
+	gametype "github.com/justKody/jackbox-api/internal/game/types"
 )
 
 // message received by client peer

@@ -1,4 +1,4 @@
-package engine
+package gameserver
 
 import (
 	"fmt"
@@ -7,11 +7,11 @@ import (
 	"time"
 
 	"github.com/anthdm/hollywood/actor"
-	"github.com/justKody/jackbox-api/game"
-	"github.com/justKody/jackbox-api/game/player"
-	gametype "github.com/justKody/jackbox-api/game/types"
-	"github.com/justKody/jackbox-api/gameserver/actorutil"
-	"github.com/justKody/jackbox-api/types"
+	"github.com/justKody/jackbox-api/internal/game"
+	"github.com/justKody/jackbox-api/internal/game/player"
+	gametype "github.com/justKody/jackbox-api/internal/game/types"
+	"github.com/justKody/jackbox-api/internal/gameserver/actorutil"
+	"github.com/justKody/jackbox-api/internal/types"
 )
 
 const (

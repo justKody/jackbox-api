@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/gorilla/websocket"
-	"github.com/justKody/jackbox-api/types"
+	"github.com/justKody/jackbox-api/internal/types"
 )
 
 // Write sends data to the client wrapped in a message of type msgType.

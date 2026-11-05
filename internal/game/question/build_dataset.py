@@ -12,7 +12,7 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 QUESTIONS = HERE / "owid_questions.json"
-ASSETS = HERE.parents[1] / "s3asset"
+ASSETS = HERE.parents[2] / "s3asset"
 CLIPS = "v2"
 OUT = HERE / "dataset.json"
 

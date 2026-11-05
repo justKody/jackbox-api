@@ -1,7 +1,7 @@
 package game
 
 import (
-	gametype "github.com/justKody/jackbox-api/game/types"
+	gametype "github.com/justKody/jackbox-api/internal/game/types"
 	"math/rand/v2"
 	"testing"
 )

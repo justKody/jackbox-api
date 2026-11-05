@@ -4,7 +4,7 @@ import (
 	_ "embed"
 	"encoding/json"
 
-	"github.com/justKody/jackbox-api/config"
+	"github.com/justKody/jackbox-api/internal/config"
 )
 
 type Question struct {

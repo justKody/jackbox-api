@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/justKody/jackbox-api/types"
+	"github.com/justKody/jackbox-api/internal/types"
 )
 
 func TestDecode(t *testing.T) {

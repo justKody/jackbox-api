@@ -1,12 +1,12 @@
-package engine
+package gameserver
 
 import (
 	"fmt"
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
-	"github.com/justKody/jackbox-api/gameserver/wsmsg"
-	"github.com/justKody/jackbox-api/types"
+	"github.com/justKody/jackbox-api/internal/types"
+	"github.com/justKody/jackbox-api/internal/wsmsg"
 )
 
 type PlayerSession struct {

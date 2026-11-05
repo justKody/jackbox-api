@@ -3,7 +3,7 @@ package game
 import (
 	"fmt"
 
-	gametype "github.com/justKody/jackbox-api/game/types"
+	gametype "github.com/justKody/jackbox-api/internal/game/types"
 )
 
 const (

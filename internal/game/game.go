@@ -6,9 +6,9 @@ import (
 	"slices"
 	"time"
 
-	"github.com/justKody/jackbox-api/config"
-	"github.com/justKody/jackbox-api/game/question"
-	gametype "github.com/justKody/jackbox-api/game/types"
+	"github.com/justKody/jackbox-api/internal/config"
+	"github.com/justKody/jackbox-api/internal/game/question"
+	gametype "github.com/justKody/jackbox-api/internal/game/types"
 )
 
 const (

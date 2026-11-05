@@ -16,7 +16,7 @@ func TestBankHasVoiceOvers(t *testing.T) {
 			t.Errorf("%s has no voice-over", q.ID)
 			continue
 		}
-		if _, err := os.Stat(filepath.Join("..", "..", "s3asset", q.VoiceOver)); err != nil {
+		if _, err := os.Stat(filepath.Join("..", "..", "..", "s3asset", q.VoiceOver)); err != nil {
 			t.Errorf("%s: %v", q.ID, err)
 		}
 		if q.Answer < 0 || q.Answer > 100 {

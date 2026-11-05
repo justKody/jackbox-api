@@ -1,6 +1,6 @@
 package types
 
-import "github.com/justKody/jackbox-api/game/question"
+import "github.com/justKody/jackbox-api/internal/game/question"
 
 type Call string
 
