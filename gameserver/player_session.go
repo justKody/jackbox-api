@@ -10,20 +10,14 @@ import (
 )
 
 type PlayerSession struct {
-	sessionId int
-	username  string
-	// clientId -> only use for redis re connection thing
-	inGame    bool // do we need this?
 	conn      *websocket.Conn
 	ctx       *actor.Context
 	serverPID *actor.PID
 }
 
-func newPlayerSession(sessionId int, conn *websocket.Conn, serverPID *actor.PID) actor.Producer {
+func newPlayerSession(conn *websocket.Conn, serverPID *actor.PID) actor.Producer {
 	return func() actor.Receiver {
 		return &PlayerSession{
-			sessionId: sessionId,
-			inGame:    false,
 			conn:      conn,
 			serverPID: serverPID,
 		}
@@ -46,8 +40,6 @@ func (p *PlayerSession) Receive(c *actor.Context) {
 		p.writeJSON("game", msg)
 	case *types.DialUpdate:
 		p.writeJSON("dial", msg)
-	case *types.RankResult:
-		p.writeJSON("rankResult", msg)
 	case *types.ActionError:
 		p.writeJSON("error", msg)
 	default:
@@ -86,7 +78,6 @@ func (p *PlayerSession) handleMessage(msg types.WSMessage) {
 		if !p.decode(msg, &profile) {
 			return
 		}
-		p.username = profile.Name
 		p.sendAction(types.FindMatch, profile)
 	case "cancelMatch":
 		p.sendAction(types.CancelMatch, nil)

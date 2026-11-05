@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 
 	"github.com/justKody/jackbox-api/game"
-	"github.com/justKody/jackbox-api/game/rank"
 	gametype "github.com/justKody/jackbox-api/game/types"
 )
 
@@ -46,13 +45,9 @@ type ServerActionMessage struct {
 
 // sent by the client with findMatch, who the player is and what they look like
 type Profile struct {
-	// stable id the app keeps on device, ratings are keyed by it
-	ClientID string `json:"clientId"`
-	Name     string `json:"name"`
-	Animal   string `json:"animal"`
-	Skin     string `json:"skin"`
-	// the RP the app has saved, only used the first time the server sees this client
-	RP int `json:"rp"`
+	Name   string `json:"name"`
+	Animal string `json:"animal"`
+	Skin   string `json:"skin"`
 }
 
 // data of a lockGuess message
@@ -97,9 +92,6 @@ type GameUpdate struct {
 	You string `json:"you"`
 	game.View
 }
-
-// sent to each player when a ranked game ends
-type RankResult = rank.Result
 
 // sent to a player when one of their actions was rejected
 type ActionError struct {

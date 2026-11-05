@@ -23,9 +23,8 @@ const (
 )
 
 type seat struct {
-	pid     *actor.PID
-	profile types.Profile
-	player  gametype.Player
+	pid    *actor.PID
+	player gametype.Player
 }
 
 type Lobby struct {
@@ -40,7 +39,6 @@ type Lobby struct {
 	startTimer *time.Timer
 
 	game      *game.Game
-	abandoned bool        // ended early because players left
 	phaseKey  string      // round/phase/guesser the current deadline belongs to
 	tick      int         // bumped on every new deadline, so stale timers are ignored
 	timer     *time.Timer // the current phase's deadline
@@ -88,14 +86,7 @@ type playerBounced struct {
 	profile types.Profile
 }
 
-type lobbyFinished struct {
-	lobbyId string
-	// false when the game ended early, nobody's RP moves then
-	ranked bool
-	// still at the table with final scores, seats is who they are
-	players []gametype.Player
-	seats   []*seat
-}
+type lobbyFinished struct{ lobbyId string }
 
 func (l *Lobby) Receive(c *actor.Context) {
 	switch msg := c.Message().(type) {
@@ -129,8 +120,7 @@ func (l *Lobby) handleAdd(msg *addPlayer) {
 		name = player.DefaultName(l.joined)
 	}
 	s := &seat{
-		pid:     msg.pid,
-		profile: msg.profile,
+		pid: msg.pid,
 		player: gametype.Player{
 			ID:       fmt.Sprintf("p%d", l.joined),
 			Name:     name,
@@ -177,7 +167,6 @@ func (l *Lobby) handleRemove(pid *actor.PID) {
 	}
 	if !l.game.RemovePlayer(s.player.ID) {
 		l.game.Phase = gametype.PhaseGameOver
-		l.abandoned = true
 	}
 	l.sync()
 }
@@ -271,12 +260,7 @@ func (l *Lobby) sync() {
 
 	l.broadcastGame()
 	if g.Phase == gametype.PhaseGameOver {
-		l.ctx.Send(l.serverPID, &lobbyFinished{
-			lobbyId: l.lobbyId,
-			ranked:  !l.abandoned,
-			players: slices.Clone(g.Players),
-			seats:   slices.Clone(l.seats),
-		})
+		l.ctx.Send(l.serverPID, &lobbyFinished{lobbyId: l.lobbyId})
 	}
 }
 

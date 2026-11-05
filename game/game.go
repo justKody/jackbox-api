@@ -81,10 +81,6 @@ func (g *Game) beginRound() {
 	g.Results = nil
 }
 
-func (g *Game) Restart() {
-	g.reset(g.Players)
-}
-
 func (g *Game) Guesser() gametype.Player {
 	return g.Players[g.GuesserIdx]
 }

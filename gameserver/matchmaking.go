@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/anthdm/hollywood/actor"
-	"github.com/justKody/jackbox-api/game/rank"
 	"github.com/justKody/jackbox-api/gameserver/actorutil"
 	"github.com/justKody/jackbox-api/gameserver/roomcode"
 	"github.com/justKody/jackbox-api/types"
@@ -99,11 +98,8 @@ func (s *GameServer) handleBounced(msg *playerBounced) {
 	s.placeInLobby(msg.pid, msg.profile)
 }
 
-// handleLobbyFinished settles a ranked game and frees its players to search again
+// handleLobbyFinished closes a finished lobby and frees its players to search again
 func (s *GameServer) handleLobbyFinished(msg *lobbyFinished) {
-	if msg.ranked {
-		s.settleRanked(msg)
-	}
 	l, ok := s.lobbies[msg.lobbyId]
 	if !ok {
 		return
@@ -113,40 +109,6 @@ func (s *GameServer) handleLobbyFinished(msg *lobbyFinished) {
 	}
 	delete(s.lobbies, msg.lobbyId)
 	s.ctx.Engine().Poison(l.pid)
-}
-
-// settleRanked moves everyone's RP by where they finished and tells each player their change
-func (s *GameServer) settleRanked(msg *lobbyFinished) {
-	seats := make(map[string]*seat, len(msg.seats)) // player id -> seat
-	ratings := make(map[string]int, len(msg.seats)) // player id -> RP
-	for _, st := range msg.seats {
-		seats[st.player.ID] = st
-		ratings[st.player.ID] = s.rating(st)
-	}
-	for _, r := range rank.Apply(msg.players, ratings) {
-		st := seats[r.PlayerID]
-		s.ratings[ratingKey(st)] = r.After
-		s.ctx.Send(st.pid, &r)
-	}
-}
-
-// rating is the player's RP, the first time a client shows up it brings the RP its app saved
-func (s *GameServer) rating(st *seat) int {
-	if rp, ok := s.ratings[ratingKey(st)]; ok {
-		return rp
-	}
-	if st.profile.RP > 0 {
-		return st.profile.RP
-	}
-	return rank.StartingRP
-}
-
-// ratings follow the app's client id, a client without one only keeps RP for this connection
-func ratingKey(st *seat) string {
-	if st.profile.ClientID != "" {
-		return st.profile.ClientID
-	}
-	return st.pid.String()
 }
 
 // handleCancelMatch stops the player's wait, or takes them out of their lobby

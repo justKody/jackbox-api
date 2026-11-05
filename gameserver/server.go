@@ -6,7 +6,6 @@ import (
 	"math"
 	"math/rand"
 	"net/http"
-	"sync"
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
@@ -16,25 +15,20 @@ import (
 )
 
 type GameServer struct {
-	ctx      *actor.Context
-	mu       sync.Mutex
-	sessions map[int]*actor.PID
+	ctx *actor.Context
 
 	// only touched inside Receive, so no lock needed
 	lobbies     map[string]*lobbyInfo   // lobby id -> lobby
 	playerLobby map[string]string       // player session pid -> lobby id
 	waiting     map[string]*matchTicket // player session pid -> ticket, while waiting for a lobby
-	ratings     map[string]int          // client id -> RP, in memory until there is a database
 }
 
 func newGameServer() actor.Producer {
 	return func() actor.Receiver {
 		return &GameServer{
-			sessions:    make(map[int]*actor.PID),
 			lobbies:     make(map[string]*lobbyInfo),
 			playerLobby: make(map[string]string),
 			waiting:     make(map[string]*matchTicket),
-			ratings:     make(map[string]int),
 		}
 	}
 }
@@ -81,11 +75,8 @@ func (s *GameServer) handlePlayerAction(player *actor.PID, msg *types.PlayerActi
 		s.handleCancelMatch(player)
 
 	case types.JoinRoom:
-
 		// Join room (not needed right now)
-
 	case types.LeaveRoom:
-
 		// Leave room (now needed right now)
 
 	case types.LockGuess, types.Vote, types.Dial:
@@ -137,11 +128,7 @@ func (s *GameServer) handleWs(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("new client trying connect")
 	sid := rand.Intn(math.MaxInt)
-	pid := s.ctx.SpawnChild(newPlayerSession(sid, conn, s.ctx.PID()), fmt.Sprintf("session_%d", sid))
-
-	s.mu.Lock()
-	s.sessions[sid] = pid
-	s.mu.Unlock()
+	s.ctx.SpawnChild(newPlayerSession(conn, s.ctx.PID()), fmt.Sprintf("session_%d", sid))
 }
 
 // Run starts the actor engine and the websocket server, and blocks forever
