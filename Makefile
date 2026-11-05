@@ -2,7 +2,7 @@
 
 # build the game server binary
 build:
-	@go build -o build/server .
+	@go build -o build/server ./cmd/api
 
 # build and start the game server on :4000
 server: build
@@ -10,7 +10,7 @@ server: build
 
 # start without building a binary
 run:
-	@go run .
+	@go run ./cmd/api
 
 test:
 	@go test ./...
