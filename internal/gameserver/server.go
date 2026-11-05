@@ -2,14 +2,10 @@ package gameserver
 
 import (
 	"fmt"
-	"log"
-	"math"
-	"math/rand"
 	"net/http"
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
-	"github.com/justKody/jackbox-api/internal/config"
 	"github.com/justKody/jackbox-api/internal/types"
 	"github.com/justKody/jackbox-api/internal/wsmsg"
 )
@@ -21,6 +17,11 @@ type GameServer struct {
 	lobbies     map[string]*lobbyInfo   // lobby id -> lobby
 	playerLobby map[string]string       // player session pid -> lobby id
 	waiting     map[string]*matchTicket // player session pid -> ticket, while waiting for a lobby
+}
+
+// sent by HandleWs when a client's websocket is ready for a player session
+type clientConnected struct {
+	conn *websocket.Conn
 }
 
 func newGameServer() actor.Producer {
@@ -36,9 +37,10 @@ func newGameServer() actor.Producer {
 func (s *GameServer) Receive(c *actor.Context) {
 	switch msg := c.Message().(type) {
 	case actor.Started:
-		// ctx must be set before the http server can spawn sessions with it
 		s.ctx = c
-		s.startHttp()
+	case *clientConnected:
+		fmt.Println("new client connected")
+		c.SpawnChild(newPlayerSession(msg.conn, c.PID()), "session")
 	case *types.PlayerActionMessage:
 		s.handlePlayerAction(c.Sender(), msg)
 	case *types.ServerActionMessage:
@@ -93,21 +95,6 @@ func (s *GameServer) handlePlayerAction(player *actor.PID, msg *types.PlayerActi
 
 }
 
-func (s *GameServer) startHttp() {
-	addr := ":" + config.Envs.Port
-	fmt.Println("starting HTTP server on", addr)
-	// replace it with mux router
-	go func() {
-		http.HandleFunc("/ws", s.handleWs)
-		// question voice-overs, until they move to a bucket (see question.VoiceURL)
-		http.Handle("/assets/v2/", http.StripPrefix("/assets/", http.FileServer(http.Dir(config.Envs.AssetDir))))
-		// e.g. the port is taken, without this the process deadlocks in Run's select
-		if err := http.ListenAndServe(addr, nil); err != nil {
-			log.Fatalf("http server on %s stopped: %v", addr, err)
-		}
-	}()
-}
-
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -116,27 +103,29 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func (s *GameServer) handleWs(w http.ResponseWriter, r *http.Request) {
+// Service is the running game server as the rest of the program sees it
+type Service struct {
+	engine    *actor.Engine
+	serverPID *actor.PID
+}
+
+// Start runs the actor engine and the game server actor
+func Start() (*Service, error) {
+	e, err := actor.NewEngine(actor.NewEngineConfig())
+	if err != nil {
+		return nil, fmt.Errorf("could not start the actor engine: %w", err)
+	}
+	return &Service{engine: e, serverPID: e.Spawn(newGameServer(), "server")}, nil
+}
+
+// HandleWs upgrades a client to a websocket and hands it to the game server actor.
+// It runs on an http goroutine, so it only talks to the actor with a message
+func (g *Service) HandleWs(w http.ResponseWriter, r *http.Request) {
 	// add authentication check here
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		return // Upgrade already wrote the HTTP error
 	}
-
-	// adding spawn child -> player session
-
-	fmt.Println("new client trying connect")
-	sid := rand.Intn(math.MaxInt)
-	s.ctx.SpawnChild(newPlayerSession(conn, s.ctx.PID()), fmt.Sprintf("session_%d", sid))
-}
-
-// Run starts the actor engine and the websocket server, and blocks forever
-func Run() {
-	e, err := actor.NewEngine(actor.NewEngineConfig())
-	if err != nil {
-		log.Fatalf("could not start the actor engine: %v", err)
-	}
-	e.Spawn(newGameServer(), "server")
-	select {}
+	g.engine.Send(g.serverPID, &clientConnected{conn: conn})
 }
