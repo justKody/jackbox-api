@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/justKody/jackbox-api/internal/types"
 	"github.com/justKody/jackbox-api/internal/ws"
+	"github.com/justKody/jackbox-api/internal/ws/types"
 )
 
 // the real routes in front of a real game server

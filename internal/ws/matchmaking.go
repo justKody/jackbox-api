@@ -5,9 +5,9 @@ import (
 	"time"
 
 	"github.com/anthdm/hollywood/actor"
-	"github.com/justKody/jackbox-api/internal/types"
 	"github.com/justKody/jackbox-api/internal/ws/actorutil"
 	"github.com/justKody/jackbox-api/internal/ws/roomcode"
+	"github.com/justKody/jackbox-api/internal/ws/types"
 )
 
 const (

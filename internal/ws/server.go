@@ -7,7 +7,7 @@ import (
 
 	"github.com/anthdm/hollywood/actor"
 	"github.com/gorilla/websocket"
-	"github.com/justKody/jackbox-api/internal/types"
+	"github.com/justKody/jackbox-api/internal/ws/types"
 	"github.com/justKody/jackbox-api/internal/ws/wsmsg"
 )
 
